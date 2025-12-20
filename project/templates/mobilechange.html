@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container mt-3">
+  <form action="/mobilechange" method="POST" id="mobileChange">
+    <div class="mb-3">
+      <label for="verify">{{ _('Update Mobile Verify Code:') }}</label>
+      <input type="text" class="form-control" id="verify" name="verify" required />
+    </div>
+    <button class="btn btn-outline-primary" id="update">Update</button>
+  </form>
+</div>
+
+{% endblock %}

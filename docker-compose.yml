@@ -1,0 +1,16 @@
+networks:
+  whatsapp_auth:
+
+services:
+  whatsapp_auth:
+    image: whatsapp_auth:latest
+    container_name: whatsapp_auth
+    env_file:
+      - .env
+    volumes:
+      - /path/to/logs:/app/logs
+    ports:
+      - 5000:5000
+    networks:
+      - whatsapp_auth
+    restart: unless-stopped
