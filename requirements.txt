@@ -8,3 +8,16 @@ mysql-connector
 pymysql
 python-dotenv
 requests
+musicbrainzngs
+qrcode
+youtube-search-python
+pytz
+Pillow
+httpx==0.27.2
+tzdata 
+yt-dlp
+selenium
+seleniumbase
+apscheduler
+pytubefix
+pika

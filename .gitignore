@@ -1,5 +1,6 @@
 # Teste files
 test*.py
+build.sh
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

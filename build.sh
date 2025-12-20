@@ -1,8 +1,8 @@
-docker compose -f /home/ubuntu/apps/docker/docker-compose.yml down whatsapp_auth
-docker rmi mservatius/whatsapp_auth:arm
-docker build -t whatsapp_auth:arm .
-docker tag whatsapp_auth:arm mservatius/whatsapp_auth:arm
-docker push mservatius/whatsapp_auth:arm
-docker rmi whatsapp_auth:arm
-docker rmi mservatius/whatsapp_auth:arm
-docker compose -f /home/ubuntu/apps/docker/docker-compose.yml up whatsapp_auth -d
+docker compose -f /home/msh/docker/compose/docker-compose.yml down karatube2
+docker rmi mservatius/karatube2:latest
+docker build -t karatube2:latest .
+docker tag karatube2:latest mservatius/karatube2:latest
+docker push mservatius/karatube2:latest
+docker rmi karatube2:latest
+docker rmi mservatius/karatube2:latest
+docker compose -f /home/msh/docker/compose/docker-compose.yml up karatube2:latest -d
