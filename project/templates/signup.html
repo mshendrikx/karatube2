@@ -1,21 +1,21 @@
 {% extends "base.html" %} {% block headscript %}
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
 {% endblock %} {% block css %}
 <style>
   /* Custom styles to make the input fit well with Bootstrap */
   .iti {
     width: 100%;
   }
+
   .iti__flag-container {
     padding: 0 5px;
   }
+
   .form-control.phone-input {
     padding-left: 52px;
   }
-  .is-invalid + .iti__flag-container {
+
+  .is-invalid+.iti__flag-container {
     border-color: #dc3545;
   }
 </style>
@@ -28,45 +28,21 @@
     </div>
     <div class="mb-3">
       <label for="email">{{ _('E-mail:') }}</label>
-      <input
-        type="text"
-        class="form-control"
-        id="email"
-        name="email"
-        required
-      />
+      <input type="text" class="form-control" id="email" name="email" required />
     </div>
     <div class="mb-3">
       <label for="phone">{{ _('Mobile:') }}</label>
-      <input
-        type="tel"
-        class="form-control phone-input"
-        id="phone"
-        name="phone"
-        required
-      />
+      <input type="tel" class="form-control phone-input" id="phone" name="phone" required />
       <input type="hidden" id="mobile" name="mobile" />
       <div id="phoneError" class="invalid-feedback"></div>
     </div>
     <div class="mb-3">
       <label for="password">{{ _('Password:') }}</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password"
-        name="password"
-        required
-      />
+      <input type="password" class="form-control" id="password" name="password" required />
     </div>
     <div class="mb-3">
       <label for="repass">{{ _('Re-type Password:') }}</label>
-      <input
-        type="password"
-        class="form-control"
-        id="repass"
-        name="repass"
-        required
-      />
+      <input type="password" class="form-control" id="repass" name="repass" required />
     </div>
     <div class="mb-3">
       <label for="lang_selection">{{ _('language:') }}</label>
@@ -74,6 +50,13 @@
         <option value="en">English</option>
         <option value="pt">Português</option>
       </select>
+    </div>
+    <div class="mb-3" id="reader"></div>
+    <div class="mb-3">
+      <input type="hidden" class="form-control" id="roomid" name="roomid" value="" required>
+    </div>
+    <div class="mb-3">
+      <input type="hidden" class="form-control" id="roompass" name="roompass" value="" required>
     </div>
     <button class="btn btn-outline-primary" id="signup">Sign Up</button>
   </form>
@@ -158,6 +141,30 @@
       phoneError.textContent = "Please enter a valid phone number";
     }
   });
+</script>
+
+<script>
+    const html5QrCode = new Html5Qrcode("reader");
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        // Handle on success condition with the decoded text or result.
+        let roomid = document.getElementById('roomid');
+        let roompass = document.getElementById('roompass');
+        let signup = document.getElementById("signup");
+        let separator = "§";
+        let parts = decodedText.split(separator);
+        roomid.value = parts[0]
+        roompass.value = parts[1]
+        html5QrCode.stop().then((ignore) => {
+            // QR Code scanning is stopped.
+        }).catch((err) => {
+            // Stop failed, handle it.
+        });
+        signup.click();
+    };
+    const config = { fps: 100, qrbox: { width: 200, height: 200 } };
+    // If you want to prefer back camera
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
 </script>
 
 {% endblock %}

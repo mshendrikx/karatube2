@@ -35,6 +35,19 @@ def login_post():
         flash("alert-danger")
         return redirect(url_for('auth.login')) # if the user doesn't exist or password is wrong, reload the page
 
+    if user.admin == "X":
+        user.roomadm = "X"
+    else:
+        #roomadm = Roomadm.query.filter_by(roomid=room.roomid, userid=user.id).first()
+        roomadm = Roomadm.query.filter_by(roomid=user.roomid, userid=user.id).first()
+        try:
+            if roomadm.roomid == user.roomid:
+                user.roomadm = "X"
+            else:
+                user.roomadm = ""
+        except:
+            user.roomadm = ""
+            
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
     db.session.add(user)
@@ -57,8 +70,10 @@ def signup_post():
     repass = request.form.get("repass")
     name = request.form.get("name")
     email = request.form.get("email")
-    mobile = request.form.get("mobile")
+    mobile = request.form.get("phone")
     language = request.form.get("lang_selection")
+    roomid = request.form.get("roomid")
+    roompass = request.form.get("roompass")
 
     if password != repass:
         flash(_("Password dont match"))
@@ -71,13 +86,20 @@ def signup_post():
         return redirect(url_for("auth.signup"))
 
     user = User.query.filter_by(
-        email=email
+        mobile=mobile
     ).first()  # if this returns a user, then the email already exists in database
 
     if (
         user
     ):  # if a user is found, we want to redirect back to signup page so user can try again
-        flash(_("E-mail already registred"))
+        flash(_("Phone already registred"))
+        flash("alert-danger")
+        return redirect(url_for("auth.signup"))
+
+    room = Room.query.filter_by(roomid=roomid).first()
+
+    if not room or room.password != roompass:
+        flash(_("Wrong room or room password"))
         flash("alert-danger")
         return redirect(url_for("auth.signup"))
 
@@ -87,9 +109,11 @@ def signup_post():
         password=generate_password_hash(password, method="pbkdf2:sha256"),
         email=email,
         mobile=mobile,
-        admin=0,
+        admin="",
         language=language,
-        theme="dark"
+        theme="dark",
+        roomadm="",
+        roomid=roomid,
     )
 
     # add the new user to the database
