@@ -1,3 +1,4 @@
+import uuid
 import requests
 import os
 
@@ -6,7 +7,7 @@ from flask_wtf import FlaskForm, RecaptchaField
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
 from flask_babel import gettext as _
-from .models import User
+from .models import User, Room, Roomadm
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -30,11 +31,18 @@ def login_post():
     # check if the user actually exists
     # take the user-supplied password, hash it, and compare it to the hashed password in the database
     if not user or not check_password_hash(user.password, password):
-        flash('Please check your login details and try again.')
+        flash(_("Please check your login details and try again."))
+        flash("alert-danger")
         return redirect(url_for('auth.login')) # if the user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
+    db.session.add(user)
+    db.session.commit()
+    
+    if 'session_id' not in session:
+        session['session_id'] = str(uuid.uuid4())
+        
     return redirect(url_for('main.profile'))
 
 @auth.route('/signup')

@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(1000))
     language = db.Column(db.String(2))
     theme = db.Column(db.String(5))
-    admin = db.Column(db.Integer)
+    admin = db.Column(db.String(1))
     whatsapp_id = db.Column(db.String(30))
     roomid = db.Column(db.String(100))
     roomadm = db.Column(db.String(1))

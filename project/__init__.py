@@ -1,5 +1,6 @@
 import os
 import logging
+import dotenv
 
 from flask import Flask, request
 from flask_babel import Babel, gettext as _
@@ -10,6 +11,8 @@ from werkzeug.security import generate_password_hash
 from sqlalchemy import create_engine, text
 
 from .whatsapp_api import whatsapp_restart_session
+
+dotenv.load_dotenv()
 
 # Configure logging to file and console
 logging.basicConfig(
@@ -60,6 +63,10 @@ def create_app():
     db_port = os.environ.get("DB_PORT")
     db_name = os.environ.get("DB_DATABASE")
 
+    app.config["BABEL_DEFAULT_LOCALE"] = "en"  # Default language
+    app.config["BABEL_TRANSLATION_DIRECTORIES"] = "./translations"
+    app.config["SECRET_KEY"] = os.urandom(24).hex()
+    
     # Connect to MySQL server (without specifying database)
     server_url = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}:{db_port}/"
     engine = create_engine(server_url)
@@ -100,7 +107,7 @@ def create_app():
         replace_existing=True,
     )
 
-    from .models import User
+    from .models import User, Room, Roomadm, Config
 
     with app.app_context():
         # Create the database tables if they don't exist
@@ -116,10 +123,31 @@ def create_app():
                 password=generate_password_hash("admin", method="pbkdf2:sha256"),
                 language="en",
                 theme="dark",
-                admin=1,
+                admin="X",
                 whatsapp_id="",
+                roomid="main",
+                roomadm="X",
+                
             )
             db.session.add(new_user)
+            db.session.commit()
+
+        # add main room to the database
+        room = Room.query.filter_by(roomid="main").first()
+        if not room:
+            new_room = Room(
+                roomid="main",
+                password=generate_password_hash("room", method="pbkdf2:sha256"),
+            )
+            new_roomadm = Roomadm(roomid="main", userid="admin")
+            db.session.add(new_roomadm)
+            db.session.add(new_room)
+            db.session.commit()
+
+        config = Config.query.filter_by(id="CONFIG").first()
+        if not config:
+            new_config = Config(id="CONFIG", lastfm="", updateratio=1, songint=10)
+            db.session.add(new_config)
             db.session.commit()
 
     @login_manager.user_loader
