@@ -41,8 +41,29 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.profile') }}">{{ _('Profile') }}</a>
                     </li>
-                    {% if current_user.admin == 1 %}
-
+                    {% if current_user.roomid != "" %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.musics') }}">{{ _('Musics') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.queue') }}">{{ _('Queue') }}</a>
+                    </li>
+                    {% endif %}
+                    {% if current_user.roomadm == 'X' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.barcode') }}">{{ _('Barcode') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.roomcontrol') }}">{{ _('Room') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.player') }}">{{ _('Player') }}</a>
+                    </li>
+                    {% endif %}
+                    {% if current_user.admin == 'X' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.configuration') }}">{{ _('Configuration') }}</a>
+                    </li>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a>
