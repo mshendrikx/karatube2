@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
 from flask_babel import gettext as _
 from .models import User, Room, Roomadm
+from .whatsapp_api import whatsapp_send_message, whatsapp_get_numberid
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -137,48 +138,39 @@ def recoverlogin():
 @auth.route("/recoverlogin", methods=["POST"])
 def recoverlogin_post():
 
-    form = RecoverLoginForm()
-    recaptcha_response = request.form.get('g-recaptcha-response')
-    secret_key = current_app.config['RECAPTCHA_PRIVATE_KEY']
+    mobile = request.form.get("mobile")
 
-    # Verify the reCAPTCHA response with Google's API
-    recaptcha_verify_url = "https://www.google.com/recaptcha/api/siteverify"
-    response = requests.post(recaptcha_verify_url, data={
-        'secret': secret_key,
-        'response': recaptcha_response
-    })
-    result = response.json()
-
-    if not result.get('success') or result.get('score', 0) < 0.5:
-        flash(_("Failed reCAPTCHA verification. Please try again."))
-        flash("alert-danger")
-        return redirect(url_for("auth.recoverlogin"))
-
-    # Proceed with the rest of the recoverlogin logic
-    email = request.form.get("email")
-
-    if "@" not in email:
-        flash(_("Enter valid E-mail"))
-        flash("alert-danger")
-        return redirect(url_for("auth.recoverlogin"))
-
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(mobile=mobile).first()
 
     if not user:
-        flash(_("E-mail not exist in database."))
+        flash(_("Phone number don't exist in database."))
         flash("alert-danger")
     else:
-        password = os.urandom(5).hex()
-#        if recover_email(user, password):
-#            user.password = generate_password_hash(password, method="pbkdf2:sha256")
-#            db.session.commit()
-#            flash(_("Recover E-mail has been sent"))
-#            flash("alert-success")
-#        else:
-#            flash(_("Failed to send recover email. Contact administrator"))
-#            flash("alert-danger")
-
+        password = os.urandom(4).hex()
+        contact_fail = whatsapp_send_message(
+            base_url=os.environ.get("WHATSAPP_BASE_URL"),
+            api_key=os.environ.get("WHATSAPP_API_KEY"),
+            session=os.environ.get("WHATSAPP_SESSION"),
+            contacts=[whatsapp_get_numberid(
+                base_url=os.environ.get("WHATSAPP_BASE_URL"),
+                api_key=os.environ.get("WHATSAPP_API_KEY"),
+                session=os.environ.get("WHATSAPP_SESSION"),
+                contact=mobile,
+            )],
+            content=_("Your new Karatube password is: ") + password,
+            content_type="string",
+        )
+        if not contact_fail:
+            user.password = generate_password_hash(password, method="pbkdf2:sha256")
+            db.session.commit()
+            flash(_("Recover message has been sent"))
+            flash("alert-success")  
+        else:
+            flash(_("Failed to send recover message. Contact administrator"))
+            flash("alert-danger")
+            
     return redirect(url_for("auth.login"))
+
 
 @auth.route('/logout')
 @login_required

@@ -1,34 +1,123 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}{% block headscript %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
+{% endblock %} {% block css %}
+<style>
+    /* Custom styles to make the input fit well with Bootstrap */
+    .iti {
+        width: 100%;
+    }
+
+    .iti__flag-container {
+        padding: 0 5px;
+    }
+
+    .form-control.phone-input {
+        padding-left: 52px;
+    }
+
+    .is-invalid+.iti__flag-container {
+        border-color: #dc3545;
+    }
+</style>
+{% endblock %}{% block content %}
 
 <div class="container border">
     <br>
     <form action="{{ url_for('auth.recoverlogin_post') }}" method="POST" id="recoverlogin-form">
-        <div class="container-fluid">
-            
-            <div class="row">
-                <div class="col-3 text-white">
-                    <label for="email">{{ _('E-mail:') }}</label>
-                </div>
-                <div class="col-9 text-white">
-                    <input type="text" class="form-control" id="email" name="email" required>
-                </div>
-            </div>
+        <div class="mb-3">
+            <label for="phone">{{ _('Mobile:') }}</label>
+            <input type="tel" class="form-control phone-input" id="phone" name="phone" required />
+            <input type="hidden" id="mobile" name="mobile" />
+            <div id="phoneError" class="invalid-feedback"></div>
         </div>
         {{ form.hidden_tag() }}
         <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
         <br>
         <button class="btn btn-outline-primary" type="submit">{{ _('Send') }}</button>
         <br>
-    </form>   
-    <br> 
+    </form>
+    <br>
 </div>
 
-<script src="https://www.google.com/recaptcha/api.js?render={{ config.RECAPTCHA_PUBLIC_KEY }}"></script>
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- intl-tel-input JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+<!-- utils.js for intl-tel-input validation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
+
 <script>
-    grecaptcha.ready(function() {
-        grecaptcha.execute('{{ config.RECAPTCHA_PUBLIC_KEY }}', {action: 'recoverlogin'}).then(function(token) {
-            document.getElementById('g-recaptcha-response').value = token;
-        });
+    // Initialize intl-tel-input
+    const phoneInput = document.querySelector("#phone");
+    const phoneError = document.querySelector("#phoneError");
+    const fullPhone = document.querySelector("#mobile");
+
+    const iti = window.intlTelInput(phoneInput, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+        preferredCountries: ["br", "us"],
+        separateDialCode: true,
+        initialCountry: "auto",
+        geoIpLookup: function (callback) {
+            fetch("https://ipapi.co/json/")
+                .then((res) => res.json())
+                .then((data) => callback(data.country_code))
+                .catch(() => callback("us"));
+        },
+        customPlaceholder: function (
+            selectedCountryPlaceholder,
+            selectedCountryData
+        ) {
+            return selectedCountryPlaceholder;
+        },
     });
-</script> 
+
+    // Form validation
+    document.getElementById("recoverlogin-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Reset error state
+        phoneInput.classList.remove("is-invalid");
+        phoneError.textContent = "";
+
+        // Validate phone number
+        if (!phoneInput.value.trim()) {
+            phoneInput.classList.add("is-invalid");
+            phoneError.textContent = "Please enter a phone number";
+            return;
+        }
+
+        if (iti.isValidNumber()) {
+            // Get the full international number
+            const fullNumber = iti.getNumber();
+            fullPhone.value = fullNumber;
+
+            // Form is valid, you can submit it now
+            // alert("Form is valid!\nPhone number: " + fullNumber);
+            this.submit(); // Uncomment to actually submit the form
+        } else {
+            phoneInput.classList.add("is-invalid");
+            phoneError.textContent = "Please enter a valid phone number";
+        }
+    });
+
+    // Real-time validation as user types
+    phoneInput.addEventListener("input", function () {
+        if (this.value) {
+            if (iti.isValidNumber()) {
+                this.classList.remove("is-invalid");
+                phoneError.textContent = "";
+            }
+        }
+    });
+
+    // Handle phone input blur
+    phoneInput.addEventListener("blur", function () {
+        if (this.value && !iti.isValidNumber()) {
+            this.classList.add("is-invalid");
+            phoneError.textContent = "Please enter a valid phone number";
+        }
+    });
+</script>
+
 {% endblock %}
