@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block headscript %}
+<script>
+    var clicked = false;
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>{{ _('Preview') }}</th>
+                <th>{{ _('Description') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for video in videos %}
+            <tr>
+                <td>
+                    <a
+                        href="#" data-variable1="{{ song_id }} " data-variable2="{{ video['id'] }}" data-variable3="{{ video['image'] }}" data-variable4="{{ singer }}">
+                        {% if current_user.theme == 'light' %}
+                        <img src="{{ url_for('static', filename='images/icon-download-light.png') }}" height="24" width="24">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/icon-download-dark.png') }}" height="24" width="24">
+                        {% endif %}
+                    </a>
+                </td>
+                <td>
+                    <a href="http://www.youtube.com/watch?v={{ video['id'] }}">
+                        <img src="{{ video['thumb'] }}" height="64" width="64">
+                    </a>
+                </td>
+                <td>{{ video['description'] }}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    </table>
+</div>
+
+<script>
+    const links = document.querySelectorAll('a[data-variable1]');
+
+    links.forEach(link => {
+      link.addEventListener('click', (event) => {  
+        if (clicked === true) {
+            event.preventDefault();
+        } else {
+            clicked = true;
+        }
+        try {
+          const variableData = {};
+          for (const attribute of link.attributes) {
+            if (attribute.name.startsWith('data-variable')) {
+              const variableName = attribute.name.slice(13);
+              variableData[variableName] = attribute.value;
+            }
+          }
+          const dynamicUrl = buildDynamicUrl(variableData[1], variableData[2], variableData[3], variableData[4]);
+          link.href = dynamicUrl;
+        } catch (error) {
+          
+        }
+      });
+    });
+    
+    function buildDynamicUrl(variable1, variable2, variable3, variable4, variable5) {
+      return `/youtubedl/${variable1}/${variable2}/${variable3}/${variable4}`;  // Replace with your base URL and path
+    }
+</script>
+
+{% endblock %}

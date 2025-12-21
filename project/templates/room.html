@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.roomadm == "X" %}
+<div class="container mt-3">
+    <h3 class="title">
+        <p class="text-primary">{{ _('Room:') }} {{ current_user.roomid }}</p>
+    </h3>
+</div>
+<br>
+<div class="container border">
+    <h3 class="fa fa-align-center" aria-hidden="true">{{ _('Player Controls') }}</h3>
+    <br>
+    <div class="input-group">
+        <form method="POST" action="{{ url_for('main.setcommand', command='prev') }}">
+            <button type="submit" class="btn btn-primary">
+                <img src="{{ url_for('static', filename='images/icon-previous.png') }}" alt="Button image" height="48"
+                    width="48">
+            </button>
+        </form>&nbsp;&nbsp;
+        <form method="POST" action="{{ url_for('main.setcommand', command='play') }}">
+            <button type="submit" class="btn btn-primary">
+                <img src="{{ url_for('static', filename='images/icon-play.png') }}" alt="Button image" height="48"
+                    width="48">
+            </button>
+        </form>&nbsp;&nbsp;
+        <form method="POST" action="{{ url_for('main.setcommand', command='pause') }}">
+            <button type="submit" class="btn btn-primary">
+                <img src="{{ url_for('static', filename='images/icon-pause.png') }}" alt="Button image" height="48"
+                    width="48">
+            </button>
+        </form>&nbsp;&nbsp;
+        <form method="POST" action="{{ url_for('main.setcommand', command='next') }}">
+            <button type="submit" class="btn btn-primary">
+                <img src="{{ url_for('static', filename='images/icon-next.png') }}" alt="Button image" height="48"
+                    width="48">
+            </button>
+        </form>
+    </div>
+    <br>
+    <div class="input-group">
+        <button type="button" class="btn btn-primary">
+            <img src="{{ url_for('static', filename='images/icon-volumedown.png') }}" height="48" width="48">
+        </button>&nbsp;&nbsp;
+        <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1">
+    </div>
+    <br>
+</div>
+<br>
+<div class="container border">
+    <h3 class="fa fa-align-center" aria-hidden="true">{{ _('Config') }}</h3>
+    <br>
+    <div class="input-group">
+        <form method="POST" action="{{ url_for('main.setcommand', command='qrcode') }}">
+            <button type="submit" class="btn btn-primary">
+                {% if room.barcode == 1 %}
+                <img src="{{ url_for('static', filename='images/icon-qrcodev.png') }}" alt="Button image" height="48"
+                    width="48">
+                {% else %}
+                <img src="{{ url_for('static', filename='images/icon-qrcodea.png') }}" alt="Button image" height="48"
+                    width="48">
+                {% endif %}
+            </button>
+        </form>&nbsp;&nbsp;
+        <form method="POST" action="{{ url_for('main.setcommand', command='refresh') }}">
+            <button type="submit" class="btn btn-primary">
+                <img src="{{ url_for('static', filename='images/icon-refresh.png') }}" alt="Button image" height="48"
+                    width="48">
+            </button>
+        </form>
+    </div>
+    <br>
+    <form method="POST" action="{{ url_for('main.setcommand', command='songint') }}">
+        <div class="input-group">
+            <label for="songint">{{ _('Song Interval:') }}&nbsp;&nbsp;</label>
+            <input type="number" class="form-control" id="songint" name="songint" min="1" max="60"
+                value="{{ room.songint }}" required>
+            <button class="btn btn-outline-primary">{{ _('Update') }}</button>
+        </div>
+    </form>
+
+    <br>
+</div>
+<br>
+<div class="container border">
+    <br>
+    <div class="container border">
+        <h3 class="fa fa-align-center" aria-hidden="true">{{ _('Users') }}</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>{{ _('Name') }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                {% if user.roomid == current_user.roomid %}
+                <tr>
+                    <td>
+                        {% if user.id != current_user.id %}
+                        <a class="clickable-image" id="{{ user.id }}"
+                            href="{{ url_for('main.delroomuser', userid=user.id) }}">
+                            <img src="{{ url_for('static', filename='images/icon-delete.png') }}" height="24"
+                                width="24">
+                        </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ user.name }}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="container border">
+        <h3 class="fa fa-align-center" aria-hidden="true">{{ _('Administrators') }}</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>{{ _('Name') }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for roomadmin in roomadms %}
+                <tr>
+                    <td>
+                        <a class="clickable-image" id="{{ roomadmin.id }}"
+                            href="{{ url_for('main.delroomadm', userid=roomadmin.id) }}">
+                            <img src="{{ url_for('static', filename='images/icon-delete.png') }}" height="24"
+                                width="24">
+                        </a>
+                    </td>
+                    <td>
+                        {{ roomadmin.name }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <form method="POST" action="/addroom">
+        <div class="input-group">
+            <input list="userid" name="userid" id="useridInput" autocomplete="off" required>
+            <datalist id="userid">
+                {% for user in users_sel %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </datalist>&nbsp;&nbsp;&nbsp;
+            <input type="submit" class="btn btn-outline-primary" name="action" value="User">&nbsp;&nbsp;&nbsp;
+            <input type="submit" class="btn btn-outline-primary" name="action" value="Admin">
+        </div>
+    </form>
+    <br>
+</div>
+<script>
+    const rangeElement = document.getElementById('volume-control');
+
+    rangeElement.addEventListener('change', async () => {
+        const value = rangeElement.value;
+
+        try {
+            const response = await fetch('/volumechange', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ rangeValue: value })
+            });
+        } catch (error) {
+        }
+    });
+
+</script>
+{% endif %}
+{% endblock %}

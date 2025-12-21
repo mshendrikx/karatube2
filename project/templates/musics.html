@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block headscript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <form action="/musics" method="POST">
+        <div class="input-group">
+            <label for="user_selection">{{ _('Singer:') }}&nbsp;&nbsp;</label>
+            <select name="user_selection" id="user_selection">
+                {% for user in user_sel %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="input-group">
+            <input type="text" class="form-control" id="search_string" placeholder={{ _('"Artist - Music"') }} name="search_string"
+                required>
+            <button type="submit" class="btn btn-outline-primary">{{ _('Search Youtube') }}</button>
+        </div>
+    </form>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <td></td>
+                <td>{{ _('Preview') }}</td>
+                <td>{{ _('Music') }}</td>
+                {% if current_user.admin == "X" %}
+                <td></td>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for song in songs %}
+            <tr>
+                <td>
+                    {% if song.downloaded == 1 %}
+                    <a class="clickable-image" id="{{ song.youtubeid }}"
+                        href="{{ url_for('main.addqueue', youtubeid=song.youtubeid, userid=current_user.id) }}">
+                        {% if current_user.theme == 'light' %}
+                        <img src="{{ url_for('static', filename='images/icon-addlist-light.png') }}" height="24" width="24">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/icon-addlist-dark.png') }}" height="24" width="24">
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.miniplayer', youtubeid=song.youtubeid) }}">
+                        <img src="/static/thumbs/{{ song.youtubeid }}.jpg" height="64" width="64">
+                    </a>
+                </td>
+                <td>{{ song.artist }} - {{ song.name }}</td>
+                {% if current_user.admin == "X" %}
+                <td>
+                    <a class="clickable-image" id="{{ song.youtubeid }}"
+                        href="{{ url_for('main.delsong', youtubeid=song.youtubeid) }}">
+                        {% if current_user.theme == 'light' %}
+                        <img src="{{ url_for('static', filename='images/icon-delete-light.png') }}" height="24" width="24">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/icon-delete-dark.png') }}" height="24" width="24">
+                        {% endif %}
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+        </tbody>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#search_string").on("keyup", function () {
+            var searchTerm = $(this).val().toLowerCase();  // Get user input and convert to lowercase
+            $("table tr").not(":first").hide();  // Hide all table rows except header
+
+            $("table tr").filter(function () {
+                var content = $(this).text().toLowerCase();  // Get text content of each row (lowercase)
+                return content.indexOf(searchTerm) != -1;  // Check if search term is present
+            }).show();  // Show rows that match the search term
+        });
+    });
+
+    const dynamicLinks = document.querySelectorAll('.clickable-image');
+    const selectElement = document.getElementById('user_selection');
+
+    selectElement.addEventListener('change', function () {
+        const selectedValue = this.value;
+
+        dynamicLinks.forEach(link => {
+
+            link.href = '/addqueue/' + link.id + '/' + selectedValue
+        });
+    });
+</script>
+{% endblock %}

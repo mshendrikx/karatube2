@@ -146,7 +146,7 @@ def create_app():
 
         config = Config.query.filter_by(id="CONFIG").first()
         if not config:
-            new_config = Config(id="CONFIG", lastfm="", updateratio=1, songint=10)
+            new_config = Config(id="CONFIG", lastfm="", updateratio=1)
             db.session.add(new_config)
             db.session.commit()
 

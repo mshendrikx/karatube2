@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+  font-size: 17px;
+}
+
+.video-container {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Scales video to fill container, maintaining aspect ratio */
+}
+
+#overlay-now {
+  z-index: 2;
+  position: absolute;
+  text-align: left;
+  top: 0;
+  left: 1%;
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 20px;
+}
+
+#overlay-next {
+  z-index: 2;
+  position: absolute;
+  text-align: left;
+  bottom: 0;
+  left: 1%;
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 20px;
+}
+
+#overlay-singer {
+  z-index: 4;
+  position: absolute;
+  text-align: center;
+  top: 15%;
+  left: 0;
+  right: 0;
+  color: rgb(255, 255, 255);
+  font-size: 80px;
+}
+
+#overlay-music {
+  z-index: 4;
+  position: absolute;
+  text-align: center;
+  top: 35%;
+  left: 0;
+  right: 0;
+  color: rgb(38, 250, 119);
+  font-size: 40px;
+}
+
+#overlay-song {
+  z-index: 4;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 0;
+  right: 0;
+  color: rgb(238, 234, 6);
+  font-size: 60px;
+}
+
+#overlay-artist {
+  z-index: 4;
+  position: absolute;
+  text-align: center;
+  top: 65%;
+  left: 0;
+  right: 0;
+  color: rgb(238, 234, 6);
+  font-size: 60px;
+}
+
+#overlay-presents {
+  z-index: 4;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.signup-container {
+  text-align: center;
+  z-index: 5;
+  right: 0;
+  top: 0;
+  position: fixed;
+}
+
+.login-container {
+  text-align: center;
+  z-index: 5;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.qrcode-label {
+  display: block;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 14px
+}

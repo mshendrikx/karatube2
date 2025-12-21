@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container border">
+    <h3 class="fa fa-align-center" aria-hidden="true">{{ _('Settings') }}</h3>
+    <form action="{{ url_for('main.configuration') }}" method="POST">
+        <div class="input-group">
+            <label for="song_library">{{ _('Song Library:') }}&nbsp;&nbsp;</label>
+            <select name="song_library" id="song_library">
+                {% if config.library == "0" %}
+                <option value="0" selected>MusicBrainz</option>
+                <option value="1">Last.fm</option>
+                {% else %}
+                <option value="0">MusicBrainz</option>
+                <option value="1" selected>Last.fm</option>
+                {% endif %}
+            </select>
+        </div>
+        <br>
+        <div class="input-group">
+            <label for="lastfm">{{ _('LAST.FM API Key:') }}&nbsp;&nbsp;</label>
+            <input type="text" class="form-control" id="lastfm" name="lastfm" value="{{ config.lastfm }}">&nbsp;&nbsp;
+            <a href="https://www.last.fm/login?next=%2Fapi%2Faccounts%3F_pjax%3D%2523content">{{ _('Get API Key') }}</a>
+        </div>
+        <br>
+        <div class="input-group">
+            <label for="updateratio">{{ _('Screen update sec:') }}&nbsp;&nbsp;</label>
+            <input type="number" class="form-control" id="updateratio" name="updateratio" min="1" max="10"
+                value="{{ config.updateratio }}" required>
+        </div>
+        <br>
+        <button class="btn btn-outline-primary">{{ _('Update') }}</button>
+    </form>
+    <br>
+</div>
+<br>
+<div class="container border">
+    <h3 class="fa fa-align-center" aria-hidden="true">{{ _('Create Room') }}</h3>
+    <form method="POST" action="{{ url_for('main.createroom') }}">
+        <div class="input-group">
+            <input type="text" class="form-control" id="roomid" name="roomid" autocomplete="off" placeholder="Room"
+                required>&nbsp;&nbsp;
+            <input list="userid" name="userid" autocomplete="off" placeholder="Administrador" required>
+            <datalist id="userid">
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </datalist>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-outline-primary">{{ _('Save') }}</button>
+        </div>
+    </form>
+    <br>
+</div>
+<br>
+<div class="container border">
+    <h3 class="fa fa-align-center" aria-hidden="true">{{ _('Delete Room') }}</h3>
+    <form method="POST" action="{{ url_for('main.delroom') }}">
+        <div class="input-group">
+            <input list="delroomid" name="delroomid" autocomplete="off" placeholder="Room" required>
+            <datalist id="delroomid">
+                {% for room in rooms %}
+                <option value="{{ room.roomid }}">{{ room.roomid }}</option>
+                {% endfor %}
+            </datalist>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-outline-primary">{{ _('Delete') }}</button>
+        </div>
+    </form>
+    <br>
+</div>
+<br>
+<div class="container border">
+    <h3 class="fa fa-align-center" aria-hidden="true">{{ _('User') }}</h3>
+    <form method="POST" action="{{ url_for('main.updateuser') }}">
+        <div class="input-group">
+            <input list="updateuserid" name="updateuserid" autocomplete="off" placeholder="Room" required>
+            <datalist id="updateuserid">
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </datalist>&nbsp;&nbsp;
+            <input type="submit" class="btn btn-outline-primary" name="action" value="Admin">&nbsp;&nbsp;
+            <input type="submit" class="btn btn-outline-primary" name="action" value="Reset">&nbsp;&nbsp;
+            <input type="submit" class="btn btn-outline-danger" name="action" value="Delete">
+        </div>
+    </form>
+    <br>
+</div>
+{% endblock %}

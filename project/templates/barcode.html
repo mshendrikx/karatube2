@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% block headscript %}
+<meta http-equiv="refresh" content="10" />
+{% endblock %} {% block content %}
+<table class="table">
+  <thead></thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td align="center">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{{ _('Singer') }}</th>
+              <th>{{ _('Music') }}</th>
+              <th>{{ _('Artist') }}</th>
+              <th>D</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for queue_item in queue %}
+            <tr>
+              <td>
+                {% if queue_item.status == 'P' %}
+                <img
+                  src="{{ url_for('static', filename='images/icon-play.png') }}"
+                  height="24"
+                  width="24"
+                />
+                {% else %} {{ queue_item.order }} {% endif %}
+              </td>
+              <td>{{ queue_item.singer }}</td>
+              <td>{{ queue_item.song }}</td>
+              <td>{{ queue_item.artist }}</td>
+              <td>
+                {% if queue_item.status == 'D' %}
+                <img
+                  src="{{ url_for('static', filename='images/icon-download.png') }}"
+                  height="24"
+                  width="24"
+                />
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </td>
+      <td align="center">
+        <div class="signup-container">
+          <a align="center">{{ _('ROOM') }}</a><br />
+          <img
+            id="signup-qrcode"
+            src="data:image/png;base64,{{ signup_img }}"
+            width="250"
+            height="250"
+          />
+        </div>
+        <br /><br /><br />
+        <div class="login-container">
+          <a align="center">{{ _('HOST') }}</a><br />
+          <img
+            id="login-qrcode"
+            src="data:image/png;base64,{{ login_img }}"
+            width="250"
+            height="250"
+          />
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

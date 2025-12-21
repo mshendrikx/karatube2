@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="video-container">
+    <video id="myVideo" width="100%" autoplay controls playsinline>
+        <source src="{{ video_url }}" type="video/mp4">
+    </video>
+</div>
+{% endblock %}

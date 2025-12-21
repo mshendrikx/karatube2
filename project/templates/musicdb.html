@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>{{ _('Artist') }}</th>
+                <th>{{ _('Music') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for music in musics %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('main.youtube', song=music.id, singer=singer_user) }}">
+                        {% if current_user.theme == 'light' %}
+                        <img src="{{ url_for('static', filename='images/icon-search-light.png') }}" height="24" width="24">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/icon-search-dark.png') }}" height="24" width="24">
+                        {% endif %}
+                    </a>
+                </td>
+                <td>{{ music.artist }}</td>
+                <td>{{ music.song }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

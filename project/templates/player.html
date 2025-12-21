@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="{{ g.locale }}">
+
+<head>
+  <title>KaraTube</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/karatube_logo1.jpg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/player.css') }}">
+
+  <script>
+
+    var screenData;
+    var updateRatio = 1000
+    var songInterval = 10000
+    var queueId = '';
+
+    function refreshPage() {
+      location.reload();
+    }
+    
+    async function getLatestInfo() {
+      $.ajax({
+        url: "/screenupdate",
+        success: function (data) {
+          screenData = data;
+          updateRatio = parseInt(screenData.update_ratio);
+          songInterval = parseInt(screenData.song_interval);
+          if (screenData.song === '') {
+            $("#overlay-now").hide();
+          } else {
+            $("#now-song").text(screenData.singer + ' - ' + screenData.song);
+            $("#overlay-now").show();
+          }
+          if (screenData.next_song === '') {
+            $("#overlay-next").hide();
+          } else {
+            $("#next-song").text(screenData.next_singer + ' - ' + screenData.next_song);
+            $("#overlay-next").show();
+          }
+          if (screenData.command !== "") {
+            var karaokeVideo = document.getElementById("video");
+            var videoDuration = karaokeVideo.duration;
+            if (screenData.command === "prev") {
+              karaokeVideo.pause();
+              karaokeVideo.currentTime = 0;
+              karaokeVideo.play();
+            }
+            if (screenData.command === "next") {
+              karaokeVideo.pause();
+              karaokeVideo.currentTime = videoDuration - 0.1;
+              karaokeVideo.play();
+            }
+            if (screenData.command === "play") {
+              karaokeVideo.play();
+            }
+            if (screenData.command === "pause") {
+              karaokeVideo.pause();
+            }
+            if (screenData.command === "vol") {
+              karaokeVideo.volume = screenData.commvalue;
+            }
+            if (screenData.command === "refresh") {
+              refreshPage();
+            }            
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+        }
+      });
+      await new Promise(resolve => setTimeout(resolve, updateRatio));
+      await getLatestInfo();
+    }
+
+    async function exec_control() {
+      if (screenData.queueid === '') {
+        $("#overlay-presents").hide();
+        $("#overlay-singer").hide();
+        $("#overlay-music").hide();
+        $("#overlay-song").hide();
+        $("#overlay-artist").hide();
+      } else {
+        if (queueId !== screenData.queueid) {
+          queueId = screenData.queueid;
+          $("#overlay-presents").show();
+          $("#overlay-singer").show();
+          $("#overlay-music").show();
+          $("#overlay-song").show();
+          $("#overlay-artist").show();
+          $("#overlay-singer").text(screenData.singer);
+          $("#overlay-song").text(screenData.song);
+          $("#overlay-artist").text(screenData.artist);
+
+          await new Promise(resolve => setTimeout(resolve, songInterval));
+          await play_video();
+        }
+      }
+    }
+
+    async function play_video() {
+      $("#video").attr("src", screenData.video_url);
+      $("#video")[0].load(); // Load the video
+      $("#video")[0].play(); // Start playback
+      $("#overlay-presents").hide();
+      $("#overlay-singer").hide();
+      $("#overlay-music").hide();
+      $("#overlay-song").hide();
+      $("#overlay-artist").hide();
+    }
+
+    getLatestInfo();
+
+    const intervalControl = setInterval(() => {
+      exec_control();
+    }, updateRatio);
+
+    // Screen size control
+    function getWindowResolution() {
+      // Access the window's inner width and height properties
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      // Return an object containing the resolution details
+      return {
+        width: width,
+        height: height
+      };
+    }
+
+    // Add an event listener for window resize
+    window.onresize = function () {
+      var size
+      const resolution = getWindowResolution();
+      size = Math.trunc(resolution.height * 0.15)
+      $("#signup-qrcode").attr("width", size);
+      $("#signup-qrcode").attr("height", size);
+      $("#login-qrcode").attr("width", size);
+      $("#login-qrcode").attr("height", size);
+    };
+
+    // Call the function initially to capture the starting resolution
+    getWindowResolution();  
+  </script>
+</head>
+
+<body>
+
+  <div id="overlay-presents"></div>
+  <div id="overlay-singer"></div>
+  <div id="overlay-music">{{ _('Singing:') }}</div>
+  <div id="overlay-song"></div>
+  <div id="overlay-artist"></div>
+  <div class="video-container">
+    <video id="video" poster="{{ url_for('static', filename='images/karatube_background1.jpg') }}" autoplay>
+      <source src="" type="video/mp4">
+    </video>
+  </div>
+  <div id="overlay-now">
+    <div class="input-group">
+      <p class="text-warning">{{ _('Now:') }}</p>&nbsp;&nbsp;
+      <p class="text-white" id="now-song"></p>
+    </div>
+  </div>
+  <div id="overlay-next">
+    <div class="input-group">
+      <p class="text-warning">{{ _('Next:') }}</p>&nbsp;&nbsp;
+      <p class="text-white" id="next-song"></p>
+    </div>
+  </div>
+  {% if room.barcode == 1 %}
+  <div class="signup-container">
+    <img id="signup-qrcode" src="data:image/png;base64,{{ signup_img }}" width="96" height="96">
+    <span class="qrcode-label">{{ _('Room') }}</span >
+  </div>
+  <div class="login-container">
+    <img id="login-qrcode" src="data:image/png;base64,{{ login_img }}" width="96" height="96">
+    <span class="qrcode-label">{{ _('Host') }}</span>
+  </div>
+  {% endif %}
+  <script>
+    const video = document.getElementById("video");
+
+    video.addEventListener('ended', () => {
+      // Fetch the next video URL from the server using AJAX
+      video.src = "";
+      video.pause();
+      fetch('/queueupdate');
+    });
+  </script>
+</body>
+
+</html>
