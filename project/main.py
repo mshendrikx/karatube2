@@ -1013,8 +1013,7 @@ def changeroom_post():
 def barcode():
 
     room = Room.query.filter_by(roomid=current_user.roomid).first()
-
-    qrcode_data = room.password
+    qrcode_data = str(room.roomid) + "§" + str(room.password)
     # Create a QR code object with desired error correction level
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L)
     qr.add_data(qrcode_data)
