@@ -1,21 +1,21 @@
 {% extends "base.html" %} {% block headscript %}
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
 {% endblock %} {% block css %}
 <style>
   /* Custom styles to make the input fit well with Bootstrap */
   .iti {
     width: 100%;
   }
+
   .iti__flag-container {
     padding: 0 5px;
   }
+
   .form-control.phone-input {
     padding-left: 52px;
   }
-  .is-invalid + .iti__flag-container {
+
+  .is-invalid+.iti__flag-container {
     border-color: #dc3545;
   }
 </style>
@@ -23,6 +23,15 @@
 <div class="container mt-3">
   <h3 class="title">{{ _('Welcome,') }} {{ current_user.name }} !</h3>
   <br />
+  {% if current_user.roomid == '' %}
+  <div class="alert alert-danger">
+    {{ _('You must enter in a room') }}
+  </div>
+  {% else %}
+  <div class="alert alert-primary">
+    {{ _('You are in room:') }} {{ current_user.roomid }}
+  </div>
+  {% endif %}
 </div>
 <div class="container border">
   <br />
@@ -33,14 +42,7 @@
           <label for="name">{{ _('Name:') }}</label>
         </div>
         <div class="col-9">
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            name="name"
-            value="{{ current_user.name }}"
-            required
-          />
+          <input type="text" class="form-control" id="name" name="name" value="{{ current_user.name }}" required />
         </div>
       </div>
       <div class="row">
@@ -48,14 +50,7 @@
           <label for="email">{{ _('E-mail:') }}</label>
         </div>
         <div class="col-9">
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            name="email"
-            value="{{ current_user.email }}"
-            required
-          />
+          <input type="text" class="form-control" id="email" name="email" value="{{ current_user.email }}" required />
         </div>
       </div>
       <div class="row">
@@ -63,13 +58,8 @@
           <label for="phone">{{ _('Mobile:') }}</label>
         </div>
         <div class="col-9">
-          <input
-            type="tel"
-            class="form-control phone-input"
-            id="phone"
-            name="phone"
-            value="{{ current_user.mobile or '' }}"
-          />
+          <input type="tel" class="form-control phone-input" id="phone" name="phone"
+            value="{{ current_user.mobile or '' }}" />
           <input type="hidden" id="mobile" name="mobile" />
           <div id="phoneError" class="invalid-feedback"></div>
         </div>
@@ -79,12 +69,7 @@
           <label for="password">{{ _('Password:') }}</label>
         </div>
         <div class="col-9">
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-          />
+          <input type="password" class="form-control" id="password" name="password" />
         </div>
       </div>
       <div class="row">
@@ -92,14 +77,10 @@
           <label for="repass">{{ _('Re-type Password:') }}</label>
         </div>
         <div class="col-9">
-          <input
-            type="password"
-            class="form-control"
-            id="repass"
-            name="repass"
-          />
+          <input type="password" class="form-control" id="repass" name="repass" />
         </div>
       </div>
+      <br />
       <div class="row">
         <div class="col-3">
           <label for="lang_selection">{{ _('Language:') }}</label>
@@ -116,6 +97,7 @@
           </select>
         </div>
       </div>
+      <br />
       <div class="row">
         <div class="col-3">
           <label for="theme_selection">{{ _('Theme:') }}</label>
@@ -132,12 +114,70 @@
           </select>
         </div>
       </div>
+      {% if current_user.roomadm == 'X' %}
+      <br />
+      <div class="row">
+        <div class="col-3">
+          <label for="room_selection">{{ _('Room:') }}</label>
+        </div>
+        <div class="col-3">
+          <select name="room_selection" id="room_selection">
+            {% for roomid in rooms %}
+            <option value="{{ roomid }}">{{ roomid }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-6">
+          <p>*</p>
+        </div>
+      </div>
+      {% endif %}
     </div>
     <br />
     <button class="btn btn-outline-primary">{{ _('Update') }}</button>
   </form>
   <br />
+  <form action="/changeroom" method="POST">
+    <p>
+      * {{ _('Regular users must scan QR code in KaraTube player screen to change room or ask a room admin to add him.')
+      }}
+    </p>
+    <div class="mb-3" id="reader"></div>
+    <input type="hidden" class="form-control" id="roomid" name="roomid" value="" required />
+    <input type="hidden" class="form-control" id="roompass" name="roompass" value="" required />
+    <button hidden class="btn btn-outline-primary" id="changeroom"></button>
+  </form>
 </div>
+
+<script>
+  const html5QrCode = new Html5Qrcode("reader");
+  const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+    // Handle on success condition with the decoded text or result.
+    let roomid = document.getElementById("roomid");
+    let roompass = document.getElementById("roompass");
+    let changeroom = document.getElementById("changeroom");
+    let separator = "§";
+    let parts = decodedText.split(separator);
+    roomid.value = parts[0];
+    roompass.value = parts[1];
+    html5QrCode
+      .stop()
+      .then((ignore) => {
+        // QR Code scanning is stopped.
+      })
+      .catch((err) => {
+        // Stop failed, handle it.
+      });
+    changeroom.click();
+  };
+  const config = { fps: 100, qrbox: { width: 200, height: 200 } };
+  // If you want to prefer back camera
+  html5QrCode.start(
+    { facingMode: "environment" },
+    config,
+    qrCodeSuccessCallback
+  );
+</script>
 
 <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -147,82 +187,82 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"></script>
 
 <script>
-      // Initialize intl-tel-input
-      const phoneInput = document.querySelector("#phone");
-      const phoneError = document.querySelector("#phoneError");
-      const fullPhone = document.querySelector("#mobile");
+  // Initialize intl-tel-input
+  const phoneInput = document.querySelector("#phone");
+  const phoneError = document.querySelector("#phoneError");
+  const fullPhone = document.querySelector("#mobile");
 
-      const iti = window.intlTelInput(phoneInput, {
-        utilsScript:
-          "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
-        preferredCountries: ["br", "us"],
-        separateDialCode: true,
-        initialCountry: "auto",
-        geoIpLookup: function (callback) {
-          fetch("https://ipapi.co/json/")
-            .then((res) => res.json())
-            .then((data) => callback(data.country_code))
-            .catch(() => callback("us"));
-        },
-        customPlaceholder: function (
-          selectedCountryPlaceholder,
-          selectedCountryData
-        ) {
-          return selectedCountryPlaceholder;
-        },
-      });
+  const iti = window.intlTelInput(phoneInput, {
+    utilsScript:
+      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+    preferredCountries: ["br", "us"],
+    separateDialCode: true,
+    initialCountry: "auto",
+    geoIpLookup: function (callback) {
+      fetch("https://ipapi.co/json/")
+        .then((res) => res.json())
+        .then((data) => callback(data.country_code))
+        .catch(() => callback("us"));
+    },
+    customPlaceholder: function (
+      selectedCountryPlaceholder,
+      selectedCountryData
+    ) {
+      return selectedCountryPlaceholder;
+    },
+  });
 
   // Set initial phone number if available
-  {% if current_user.mobile %}
+  // {% if current_user.mobile %}
   iti.setNumber("{{ current_user.mobile }}");
-  {% endif %}
+  // {% endif %}
 
-      // Form validation
-      document.getElementById("phoneForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+  // Form validation
+  document.getElementById("phoneForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-        // Reset error state
-        phoneInput.classList.remove("is-invalid");
+    // Reset error state
+    phoneInput.classList.remove("is-invalid");
+    phoneError.textContent = "";
+
+    // Validate phone number
+    if (!phoneInput.value.trim()) {
+      phoneInput.classList.add("is-invalid");
+      phoneError.textContent = "Please enter a phone number";
+      return;
+    }
+
+    if (iti.isValidNumber()) {
+      // Get the full international number
+      const fullNumber = iti.getNumber();
+      fullPhone.value = fullNumber;
+
+      // Form is valid, you can submit it now
+      // alert("Form is valid!\nPhone number: " + fullNumber);
+      this.submit(); // Uncomment to actually submit the form
+    } else {
+      phoneInput.classList.add("is-invalid");
+      phoneError.textContent = "Please enter a valid phone number";
+    }
+  });
+
+  // Real-time validation as user types
+  phoneInput.addEventListener("input", function () {
+    if (this.value) {
+      if (iti.isValidNumber()) {
+        this.classList.remove("is-invalid");
         phoneError.textContent = "";
+      }
+    }
+  });
 
-        // Validate phone number
-        if (!phoneInput.value.trim()) {
-          phoneInput.classList.add("is-invalid");
-          phoneError.textContent = "Please enter a phone number";
-          return;
-        }
-
-        if (iti.isValidNumber()) {
-          // Get the full international number
-          const fullNumber = iti.getNumber();
-          fullPhone.value = fullNumber;
-
-          // Form is valid, you can submit it now
-          // alert("Form is valid!\nPhone number: " + fullNumber);
-          this.submit(); // Uncomment to actually submit the form
-        } else {
-          phoneInput.classList.add("is-invalid");
-          phoneError.textContent = "Please enter a valid phone number";
-        }
-      });
-
-      // Real-time validation as user types
-      phoneInput.addEventListener("input", function () {
-        if (this.value) {
-          if (iti.isValidNumber()) {
-            this.classList.remove("is-invalid");
-            phoneError.textContent = "";
-          }
-        }
-      });
-
-      // Handle phone input blur
-      phoneInput.addEventListener("blur", function () {
-        if (this.value && !iti.isValidNumber()) {
-          this.classList.add("is-invalid");
-          phoneError.textContent = "Please enter a valid phone number";
-        }
-      });
+  // Handle phone input blur
+  phoneInput.addEventListener("blur", function () {
+    if (this.value && !iti.isValidNumber()) {
+      this.classList.add("is-invalid");
+      phoneError.textContent = "Please enter a valid phone number";
+    }
+  });
 </script>
 
 {% endblock %}

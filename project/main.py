@@ -97,6 +97,7 @@ def profile_post():
     mobile = request.form.get("mobile")
     language = request.form.get("lang_selection")
     theme = request.form.get("theme_selection")
+    roomid = request.form.get("roomid_selection")
 
     if password != repass:
         flash(_("Password do not match"))
@@ -117,6 +118,7 @@ def profile_post():
     current_user.email = email
     current_user.language = language
     current_user.theme = theme
+    current_user.roomid = roomid
 
     db.session.add(current_user)
     db.session.commit()
