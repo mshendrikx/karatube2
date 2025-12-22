@@ -71,7 +71,7 @@ def signup_post():
     repass = request.form.get("repass")
     name = request.form.get("name")
     email = request.form.get("email")
-    mobile = request.form.get("phone")
+    mobile = request.form.get("mobile")
     language = request.form.get("lang_selection")
     roomid = request.form.get("roomid")
     roompass = request.form.get("roompass")

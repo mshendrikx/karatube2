@@ -97,7 +97,7 @@ def profile_post():
     mobile = request.form.get("mobile")
     language = request.form.get("lang_selection")
     theme = request.form.get("theme_selection")
-    roomid = request.form.get("roomid_selection")
+    roomid = request.form.get("room_selection")
 
     if password != repass:
         flash(_("Password do not match"))
@@ -672,6 +672,7 @@ def createroom():
             roomid=roomid,
             password=generate_password_hash(roompass, method="pbkdf2:sha256"),
             barcode=1,
+            songint=10,
         )
         db.session.add(new_room)
         new_roomadm = Roomadm(roomid=roomid, userid=userid)
