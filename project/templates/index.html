@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  {{ _('KARATUBE') }}
-</h1>
-<br>
-<h2 class="subtitle">
-  {{ _('Karaoke + YOUTUBE.') }}
-</h2>
+<div class="container mt-3">
+    <h3 class="title">{{ _('Welcome to KaraTube!') }}</h3>
+    <br>
+    <div class="alert alert-primary">
+        {{ _('KaraTube is a collaborative karaoke platform where users can join rooms, queue songs, and enjoy singing together!') }}
+    </div>
+</div>
 {% endblock %}

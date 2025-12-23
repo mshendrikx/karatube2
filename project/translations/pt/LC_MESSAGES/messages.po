@@ -538,6 +538,14 @@ msgstr "Cadastrar"
 msgid "Description"
 msgstr "Descrição"
 
+#: project/templates/index.html:5
+msgid "Welcome to KaraTube!"
+msgstr "Bem-vindo ao KaraTube!"
+
+#: project/templates/index.html:8
+msgid "KaraTube is a collaborative karaoke platform where users can join rooms, queue songs, and enjoy singing together!"
+msgstr "KaraTube é uma plataforma de karaokê colaborativa onde os usuários podem entrar em salas, adicionar músicas à fila e se divertir cantando juntos!"
+
 #: project/karatube.py:533
 msgid "It's your turn to sing, "
 msgstr "É sua vez de cantar, "
