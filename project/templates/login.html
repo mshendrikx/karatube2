@@ -50,7 +50,7 @@
         {{ _('Remember me') }}
       </label>
     </div>
-    <button type="submit" class="btn btn-outline-primary">Login</button>
+    <button type="submit" class="btn btn-outline-primary">{{ _('Login') }}</button>
   </form>
   <br />
   <a href="{{ url_for('auth.recoverlogin') }}">{{ _('Recover login data') }}</a>
@@ -65,6 +65,8 @@
 
 <script>
   // Initialize intl-tel-input
+  const MSG_ENTER_PHONE = "{{ _('Please enter a phone number') }}";
+  const MSG_VALID_PHONE = "{{ _('Please enter a valid phone number') }}";
   const phoneInput = document.querySelector("#phone");
   const phoneError = document.querySelector("#phoneError");
   const fullPhone = document.querySelector("#mobile");
@@ -100,7 +102,7 @@
     // Validate phone number
     if (!phoneInput.value.trim()) {
       phoneInput.classList.add("is-invalid");
-      phoneError.textContent = "Please enter a phone number";
+      phoneError.textContent = MSG_ENTER_PHONE;
       return;
     }
 
@@ -114,7 +116,7 @@
       this.submit(); // Uncomment to actually submit the form
     } else {
       phoneInput.classList.add("is-invalid");
-      phoneError.textContent = "Please enter a valid phone number";
+      phoneError.textContent = MSG_VALID_PHONE;
     }
   });
 
@@ -132,7 +134,7 @@
   phoneInput.addEventListener("blur", function () {
     if (this.value && !iti.isValidNumber()) {
       this.classList.add("is-invalid");
-      phoneError.textContent = "Please enter a valid phone number";
+      phoneError.textContent = MSG_VALID_PHONE;
     }
   });
 </script>

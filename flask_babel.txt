@@ -1,4 +1,8 @@
-pybabel extract -F babel.cfg -o messages.pot .
-pybabel update -i messages.pot -d translations
+pybabel extract -F project/babel.cfg -o project/translations/messages.pot .
+pybabel init -i project/translations/messages.pot -d project/translations -l pt
 
-pybabel compile -d translations
+* Edit language files
+
+pybabel update -i project/translations/messages.pot -d project/translations
+pybabel compile -d project/translations
+

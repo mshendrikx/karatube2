@@ -1,0 +1,528 @@
+# Portuguese translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-12-23 13:00-0300\n"
+"PO-Revision-Date: 2025-12-23 12:46-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: project/auth.py:39
+msgid "Please check your login details and try again."
+msgstr "Por favor, verifique seus dados de login e tente novamente."
+
+#: project/auth.py:84
+msgid "Password dont match"
+msgstr "As senhas não coincidem"
+
+#: project/auth.py:89 project/main.py:108
+msgid "Enter valid E-mail"
+msgstr "Insira um e-mail válido"
+
+#: project/auth.py:100
+msgid "Phone already registred"
+msgstr "Telefone já registrado"
+
+#: project/auth.py:111 project/main.py:134
+msgid "WhatsApp number is not registered"
+msgstr "Número do WhatsApp não está registrado"
+
+#: project/auth.py:118 project/main.py:1000
+msgid "Wrong room or room password"
+msgstr "Sala ou senha da sala incorretos"
+
+#: project/auth.py:140
+msgid "User created, please login"
+msgstr "Usuário criado, por favor faça login."
+
+#: project/auth.py:162
+msgid "Phone number don't exist in database."
+msgstr "O número de telefone não existe no banco de dados."
+
+#: project/auth.py:171
+msgid "Your new Karatube password is: "
+msgstr "Sua nova senha do Karatube é: "
+
+#: project/auth.py:185
+msgid "Recover message has been sent"
+msgstr "Mensagem de recuperação enviada"
+
+#: project/auth.py:188
+msgid "Failed to send recover message. Contact administrator"
+msgstr "Falha ao enviar mensagem de recuperação. Contate o administrador"
+
+#: project/karatube.py:448
+msgid "KaraTube Login"
+msgstr "Login do KaraTube"
+
+#: project/karatube.py:450
+msgid "User:"
+msgstr "Usuário:"
+
+#: project/karatube.py:450 project/templates/login.html:38
+#: project/templates/profile.html:69 project/templates/signup.html:40
+msgid "Password:"
+msgstr "Senha:"
+
+#: project/main.py:103
+msgid "Password do not match"
+msgstr "As senhas não coincidem"
+
+#: project/main.py:156
+msgid "Your verification code is: {code}"
+msgstr "Seu código de verificação é: {code}"
+
+#: project/main.py:184
+msgid "No mobile verification request found"
+msgstr "Nenhuma solicitação de verificação de celular encontrada"
+
+#: project/main.py:196
+msgid "Mobile number updated successfully"
+msgstr "Número de celular atualizado com sucesso"
+
+#: project/main.py:200
+msgid "Verification code does not match"
+msgstr "Código de verificação não corresponde"
+
+#: project/main.py:250
+msgid "No music found in database"
+msgstr "Nenhuma música encontrada no banco de dados"
+
+#: project/main.py:260
+msgid "Session expired, please login again"
+msgstr "Sessão expirada, faça login novamente"
+
+#: project/main.py:277
+msgid "Error getting song"
+msgstr "Erro ao obter música"
+
+#: project/main.py:303
+msgid "Youtube video alredy downloaded"
+msgstr "Vídeo do YouTube já baixado"
+
+#: project/main.py:353
+msgid "Song alredy in queue"
+msgstr "Música já na fila"
+
+#: project/main.py:358
+msgid "Song added to queue"
+msgstr "Música adicionada à fila"
+
+#: project/main.py:361 project/main.py:376 project/main.py:379
+msgid "Fail to add song to queue"
+msgstr "Falha ao adicionar música à fila"
+
+#: project/main.py:369
+msgid "There is no video file, download again"
+msgstr "Não há arquivo de vídeo, baixe novamente"
+
+#: project/main.py:373
+msgid "Downloading video, wait finish"
+msgstr "Baixando vídeo, aguarde a conclusão"
+
+#: project/main.py:401
+msgid "Song deleted"
+msgstr "Música excluída"
+
+#: project/main.py:404
+msgid "Song delete fails"
+msgstr "Falha ao excluir música"
+
+#: project/main.py:407
+msgid "Only admin can delete song"
+msgstr "Apenas o administrador pode excluir músicas"
+
+#: project/main.py:461
+msgid "Queue deleted"
+msgstr "Fila excluída"
+
+#: project/main.py:464
+msgid "Only room admin can delete queue"
+msgstr "Apenas o administrador da sala pode excluir a fila"
+
+#: project/main.py:467
+msgid "Fail to delete queue"
+msgstr "Falha ao excluir a fila"
+
+#: project/main.py:487
+msgid "User is not room admin."
+msgstr "O usuário não é administrador da sala."
+
+#: project/main.py:493
+msgid "Room is not in database."
+msgstr "Sala não está no banco de dados."
+
+#: project/main.py:641 project/main.py:695 project/main.py:719
+#: project/main.py:918 project/main.py:949
+msgid "Must be administrator."
+msgstr "Deve ser administrador."
+
+#: project/main.py:654
+msgid "No user in DB."
+msgstr "Nenhum usuário no banco de dados."
+
+#: project/main.py:664
+msgid "Room alredy exists."
+msgstr "Sala já existe."
+
+#: project/main.py:681
+msgid "Room created."
+msgstr "Sala criada."
+
+#: project/main.py:684
+msgid "Fail to create Room."
+msgstr "Falha ao criar sala."
+
+#: project/main.py:735
+msgid "Configuration updated."
+msgstr "Configuração atualizada."
+
+#: project/main.py:777
+msgid "User must be an administrator."
+msgstr "O usuário deve ser administrador."
+
+#: project/main.py:826
+msgid "Room not available."
+msgstr "Sala não disponível."
+
+#: project/main.py:831
+msgid "Wrong key for room, scan room qrcode again."
+msgstr "Chave da sala incorreta, faça a leitura do QR code da sala novamente."
+
+#: project/main.py:854
+msgid "User not exist in database."
+msgstr "Usuário não existe no banco de dados."
+
+#: project/main.py:865
+msgid "User alredy in room."
+msgstr "Usuário já na sala."
+
+#: project/main.py:868
+msgid "User added to room."
+msgstr "Usuário adicionado à sala."
+
+#: project/main.py:883
+msgid "Current user can not be removed from room."
+msgstr "O usuário atual não pode ser removido da sala."
+
+#: project/main.py:891
+msgid "User removed from room."
+msgstr "Usuário removido da sala."
+
+#: project/main.py:902
+msgid "Current user can not be removed from administrator."
+msgstr "O usuário atual não pode ser removido como administrador."
+
+#: project/main.py:907
+msgid "User remove from administrator."
+msgstr "Usuário removido como administrador."
+
+#: project/main.py:928
+msgid "Room not exists."
+msgstr "Sala não existe."
+
+#: project/main.py:931
+msgid "Room deleted."
+msgstr "Sala excluída."
+
+#: project/main.py:958
+msgid "User not exist is database."
+msgstr "Usuário não existe no banco de dados."
+
+#: project/main.py:964
+msgid "Password set to: K4r4tub3"
+msgstr "Senha definida para: K4r4tub3"
+
+#: project/main.py:967
+msgid "User deleted from database."
+msgstr "Usuário excluído do banco de dados."
+
+#: project/main.py:974
+msgid "Administrator role removed."
+msgstr "Função de administrador removida."
+
+#: project/main.py:978
+msgid "User is set as administrator."
+msgstr "Usuário definido como administrador."
+
+#: project/main.py:997
+msgid "User alredy in room"
+msgstr "Usuário já na sala"
+
+#: project/main.py:1003
+msgid "User room changed"
+msgstr "Sala do usuário alterada"
+
+#: project/templates/barcode.html:14 project/templates/queue.html:13
+msgid "Singer"
+msgstr ""
+
+#: project/templates/barcode.html:15 project/templates/musicdb.html:11
+#: project/templates/musics.html:31 project/templates/queue.html:14
+msgid "Music"
+msgstr ""
+
+#: project/templates/barcode.html:16 project/templates/musicdb.html:10
+#: project/templates/queue.html:15
+msgid "Artist"
+msgstr ""
+
+#: project/templates/barcode.html:51
+msgid "ROOM"
+msgstr ""
+
+#: project/templates/barcode.html:61
+msgid "HOST"
+msgstr ""
+
+#: project/templates/base.html:5
+msgid "Flask App"
+msgstr "KaraTube"
+
+#: project/templates/base.html:35 project/templates/login.html:53
+msgid "Login"
+msgstr "Entrar"
+
+#: project/templates/base.html:38
+msgid "Signup"
+msgstr "Cadastrar"
+
+#: project/templates/base.html:43
+msgid "Profile"
+msgstr "Perfil"
+
+#: project/templates/base.html:47
+msgid "Musics"
+msgstr "Músicas"
+
+#: project/templates/base.html:50
+msgid "Queue"
+msgstr "Fila"
+
+#: project/templates/base.html:55
+msgid "Barcode"
+msgstr "QR Code"
+
+#: project/templates/base.html:58 project/templates/configuration.html:41
+#: project/templates/configuration.html:59
+#: project/templates/configuration.html:75 project/templates/player.html:175
+msgid "Room"
+msgstr "Sala"
+
+#: project/templates/base.html:61
+msgid "Player"
+msgstr "Player"
+
+#: project/templates/base.html:66
+msgid "Configuration"
+msgstr "Configuração"
+
+#: project/templates/base.html:70
+msgid "Logout"
+msgstr "Sair"
+
+#: project/templates/configuration.html:5
+msgid "Settings"
+msgstr "Configurações"
+
+#: project/templates/configuration.html:8
+msgid "Song Library:"
+msgstr "Biblioteca de Músicas:"
+#: project/templates/configuration.html:21
+msgid "LAST.FM API Key:"
+msgstr "Chave da API LAST.FM:"
+#: project/templates/configuration.html:23
+msgid "Get API Key"
+msgstr "Obter chave da API"
+#: project/templates/configuration.html:27
+msgid "Screen update sec:"
+msgstr "Atualização da tela (s):"
+#: project/templates/configuration.html:32 project/templates/profile.html:137
+#: project/templates/room.html:78
+msgid "Update"
+msgstr "Atualizar"
+#: project/templates/configuration.html:38
+msgid "Create Room"
+msgstr "Criar Sala"
+
+#: project/templates/configuration.html:43
+msgid "Administrator"
+msgstr "Administrador"
+
+#: project/templates/configuration.html:49
+msgid "Save"
+msgstr "Salvar"
+
+#: project/templates/configuration.html:56
+msgid "Delete Room"
+msgstr "Excluir Sala"
+
+#: project/templates/configuration.html:65
+#: project/templates/configuration.html:83
+msgid "Delete"
+msgstr "Excluir"
+
+#: project/templates/configuration.html:72
+msgid "User"
+msgstr "Usuário"
+
+#: project/templates/configuration.html:81
+msgid "Admin"
+msgstr "Administrador"
+
+#: project/templates/configuration.html:82
+msgid "Reset"
+msgstr "Redefinir"
+
+#: project/templates/index.html:5
+msgid "KARATUBE"
+msgstr "KARATUBE"
+
+#: project/templates/index.html:9
+msgid "Karaoke + YOUTUBE."
+msgstr "Karaokê + YOUTUBE."
+
+#: project/templates/login.html:26 project/templates/profile.html:58
+#: project/templates/recoverlogin.html:28 project/templates/signup.html:34
+msgid "Mobile:"
+msgstr "Celular:"
+
+#: project/templates/login.html:50
+msgid "Remember me"
+msgstr "Lembrar-me"
+
+#: project/templates/login.html:56
+msgid "Recover login data"
+msgstr "Recuperar dados de login"
+
+#: project/templates/login.html:68 project/templates/recoverlogin.html:51
+#: project/templates/signup.html:74
+msgid "Please enter a phone number"
+msgstr "Por favor, insira um número de telefone"
+
+#: project/templates/login.html:69 project/templates/recoverlogin.html:52
+#: project/templates/signup.html:75
+msgid "Please enter a valid phone number"
+msgstr "Por favor, insira um número de telefone válido"
+
+#: project/templates/mobilechange.html:6
+msgid "Update Mobile Verify Code:"
+msgstr ""
+
+#: project/templates/musics.html:11
+msgid "Singer:"
+msgstr "Cantor:"
+#: project/templates/musics.html:20
+msgid "\"Artist - Music\""
+msgstr "\"Artista - Música\""
+#: project/templates/musics.html:22
+msgid "Search Youtube"
+msgstr "Buscar no YouTube"
+
+#: project/templates/musics.html:30 project/templates/youtube.html:16
+msgid "Preview"
+msgstr "Pré-visualizar"
+
+#: project/templates/player.html:152
+msgid "Singing:"
+msgstr "Cantando:"
+#: project/templates/player.html:162
+msgid "Now:"
+msgstr "Agora:"
+#: project/templates/player.html:168
+msgid "Next:"
+msgstr "Próximo:"
+#: project/templates/player.html:179
+msgid "Host"
+msgstr "Host"
+#: project/templates/profile.html:24
+msgid "Welcome,"
+msgstr "Bem-vindo,"
+#: project/templates/profile.html:28
+msgid "You must enter in a room"
+msgstr "Você deve entrar em uma sala"
+#: project/templates/profile.html:32
+msgid "You are in room:"
+msgstr "Você está na sala:"
+#: project/templates/profile.html:42 project/templates/signup.html:26
+msgid "Name:"
+msgstr "Nome:"
+#: project/templates/profile.html:50 project/templates/signup.html:30
+msgid "E-mail:"
+msgstr "E-mail:"
+#: project/templates/profile.html:77 project/templates/signup.html:44
+msgid "Re-type Password:"
+msgstr "Redigite a senha:"
+#: project/templates/profile.html:86
+msgid "Language:"
+msgstr "Idioma:"
+#: project/templates/profile.html:103
+msgid "Theme:"
+msgstr "Tema:"
+#: project/templates/profile.html:108 project/templates/profile.html:111
+msgid "Dark"
+msgstr "Escuro"
+#: project/templates/profile.html:109 project/templates/profile.html:112
+msgid "Light"
+msgstr "Claro"
+#: project/templates/profile.html:121 project/templates/queue.html:6
+#: project/templates/room.html:7
+msgid "Room:"
+msgstr "Sala:"
+
+#: project/templates/profile.html:142
+msgid ""
+"Regular users must scan QR code in KaraTube player screen to change room "
+"or ask a room admin to add him."
+msgstr "Usuários regulares devem escanear o QR code na tela do reprodutor KaraTube para mudar de sala ou pedir que um administrador da sala os adicione."
+
+#: project/templates/recoverlogin.html:36
+msgid "Send"
+msgstr "Enviar"
+
+#: project/templates/room.html:12
+msgid "Player Controls"
+msgstr "Controles do reprodutor"
+
+#: project/templates/room.html:51
+msgid "Config"
+msgstr "Configuração"
+
+#: project/templates/room.html:75
+msgid "Song Interval:"
+msgstr "Intervalo entre músicas:"
+#: project/templates/room.html:88
+msgid "Users"
+msgstr "Usuários"
+
+#: project/templates/room.html:93 project/templates/room.html:125
+msgid "Name"
+msgstr "Nome"
+
+#: project/templates/room.html:120
+msgid "Administrators"
+msgstr "Administradores"
+
+#: project/templates/signup.html:48
+msgid "language:"
+msgstr "idioma:"
+
+#: project/templates/signup.html:61
+msgid "Sign Up"
+msgstr "Cadastrar"
+
+#: project/templates/youtube.html:17
+msgid "Description"
+msgstr "Descrição"
+
