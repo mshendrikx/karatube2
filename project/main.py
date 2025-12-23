@@ -347,7 +347,7 @@ def addqueue(youtubeid, userid):
 
     try:
         queue_check = Queue.query.filter_by(
-            userid=current_user.id, youtubeid=youtubeid, roomid=current_user.roomid
+            userid=current_user.id, youtubeid=youtubeid, roomid=current_user.roomid, created_by=current_user.id
         ).first()
         if queue_check:
             flash(_("Song alredy in queue"))

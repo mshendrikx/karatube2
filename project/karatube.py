@@ -87,7 +87,7 @@ def video_delete(videoid):
     return True
 
 
-def queue_add(roomid, userid, youtubeid, status):
+def queue_add(roomid, userid, youtubeid, status, created_by):
 
     try:
         new_queue = Queue(
@@ -96,6 +96,7 @@ def queue_add(roomid, userid, youtubeid, status):
             youtubeid=youtubeid,
             status=status,
             order=999999,
+            created_by=created_by,
         )
         db.session.add(new_queue)
         db.session.commit()
