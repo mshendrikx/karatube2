@@ -58,7 +58,7 @@
           <label for="phone">{{ _('Mobile:') }}</label>
         </div>
         <div class="col-9">
-          <input type="tel" class="form-control phone-input" id="phone" name="phone"
+          <input type="tel" class="form-control phone-input" id="phone" name="phone" readonly
             value="{{ current_user.mobile or '' }}" />
           <input type="hidden" id="mobile" name="mobile" />
           <div id="phoneError" class="invalid-feedback"></div>
@@ -235,6 +235,7 @@
   // Set initial phone number if available
   // {% if current_user.mobile %}
   iti.setNumber("{{ current_user.mobile }}");
+  fullPhone.value = "{{ current_user.mobile or '' }}"; // ensure hidden mobile is populated for readonly field
   // {% endif %}
 
   // Form validation
@@ -244,6 +245,17 @@
     // Reset error state
     phoneInput.classList.remove("is-invalid");
     phoneError.textContent = "";
+
+    // If phone field is readonly (user cannot change it) populate hidden mobile and submit immediately
+    if (phoneInput.readOnly) {
+      try {
+        fullPhone.value = (typeof iti !== 'undefined' && iti.isValidNumber()) ? iti.getNumber() : ("{{ current_user.mobile or '' }}");
+      } catch (err) {
+        fullPhone.value = "{{ current_user.mobile or '' }}";
+      }
+      this.submit();
+      return;
+    }
 
     // Validate phone number
     if (!phoneInput.value.trim()) {
