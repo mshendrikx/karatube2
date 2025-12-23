@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     whatsapp_id = db.Column(db.String(30))
     roomid = db.Column(db.String(100))
     roomadm = db.Column(db.String(1))
+    warning = db.Column(db.String(1))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(
         db.DateTime,

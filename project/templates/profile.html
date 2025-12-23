@@ -100,6 +100,23 @@
       <br />
       <div class="row">
         <div class="col-3">
+          <label for="warn_selection">{{ _('Warning:') }}</label>
+        </div>
+        <div class="col-3">
+          <select name="warn_selection" id="warn_selection" required>
+            {% if current_user.warning == 'X' %}
+            <option value="X" selected>{{ _('Yes') }}</option>
+            <option value="">{{ _('No') }}</option>
+            {% else %}
+            <option value="X">{{ _('Yes') }}</option>
+            <option value="" selected>{{ _('No') }}</option>
+            {% endif %}
+          </select>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3">
           <label for="theme_selection">{{ _('Theme:') }}</label>
         </div>
         <div class="col-3">
@@ -192,6 +209,9 @@
   const phoneError = document.querySelector("#phoneError");
   const fullPhone = document.querySelector("#mobile");
 
+  const MSG_ENTER_PHONE = "{{ _('Please enter a phone number') }}";
+  const MSG_VALID_PHONE = "{{ _('Please enter a valid phone number') }}";
+
   const iti = window.intlTelInput(phoneInput, {
     utilsScript:
       "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
@@ -228,7 +248,7 @@
     // Validate phone number
     if (!phoneInput.value.trim()) {
       phoneInput.classList.add("is-invalid");
-      phoneError.textContent = "Please enter a phone number";
+      phoneError.textContent = MSG_ENTER_PHONE;
       return;
     }
 
@@ -242,7 +262,7 @@
       this.submit(); // Uncomment to actually submit the form
     } else {
       phoneInput.classList.add("is-invalid");
-      phoneError.textContent = "Please enter a valid phone number";
+      phoneError.textContent = MSG_VALID_PHONE;
     }
   });
 
@@ -260,7 +280,7 @@
   phoneInput.addEventListener("blur", function () {
     if (this.value && !iti.isValidNumber()) {
       this.classList.add("is-invalid");
-      phoneError.textContent = "Please enter a valid phone number";
+      phoneError.textContent = MSG_VALID_PHONE;
     }
   });
 </script>

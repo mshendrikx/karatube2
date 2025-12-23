@@ -15,6 +15,15 @@ from .models import User, Song, Queue
 from pytubefix import YouTube
 from . import db
 
+from .whatsapp_api import (
+    whatsapp_get_numberid,
+    whatsapp_send_message,
+    whatsapp_restart_session,
+)
+
+WHATSAPP_BASE_URL = os.environ.get("WHATSAPP_BASE_URL")
+WHATSAPP_API_KEY = os.environ.get("WHATSAPP_API_KEY")
+WHATSAPP_SESSION = os.environ.get("WHATSAPP_SESSION")
 APP_PATH = str(Path(__file__).parent.absolute())
 YT_BASE_URL = "https://www.youtube.com/watch?v="
 SONGS_DIR = "/static/songs/"
@@ -515,3 +524,35 @@ def youtube_download_api(youtubeid):
         status = False
     
     return status
+
+def singer_warning(queueid):
+    
+    try:
+        queue_item = Queue.query.filter_by(id=queueid).first()
+        singer = User.query.filter_by(id=queue_item.userid).first()
+        song = Song.query.filter_by(youtubeid=queue_item.youtubeid).first()
+        message = _("It's your turn to sing, ") + song.name + " - " + singer.name
+        if singer.warning == "X":
+            whatsapp_send_message(
+                        base_url=WHATSAPP_BASE_URL,
+                        api_key=WHATSAPP_API_KEY,
+                        session=WHATSAPP_SESSION,
+                        contacts=[singer.whatsapp_id],
+                        content=message,
+                        content_type="string",
+                        )
+            
+        if queue_item.created_by != queue_item.userid:
+            user = User.query.filter_by(id=queue_item.created_by).first()
+            if user.warning == "X":
+                whatsapp_send_message(
+                            base_url=WHATSAPP_BASE_URL,
+                            api_key=WHATSAPP_API_KEY,
+                            session=WHATSAPP_SESSION,
+                            contacts=[user.whatsapp_id],
+                            content=message,
+                            content_type="string",
+                            )
+                
+    except:
+        1 == 1

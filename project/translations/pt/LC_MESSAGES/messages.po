@@ -491,6 +491,18 @@ msgstr "Usuários regulares devem escanear o QR code na tela do reprodutor KaraT
 msgid "Send"
 msgstr "Enviar"
 
+#: project/templates/profile.html:103
+msgid "Warning:"
+msgstr "Aviso:"
+
+#: project/templates/profile.html:105
+msgid "Yes"
+msgstr "Sim"
+
+#: project/templates/profile.html:106
+msgid "No"
+msgstr "Não"
+
 #: project/templates/room.html:12
 msgid "Player Controls"
 msgstr "Controles do reprodutor"
@@ -525,4 +537,12 @@ msgstr "Cadastrar"
 #: project/templates/youtube.html:17
 msgid "Description"
 msgstr "Descrição"
+
+#: project/karatube.py:533
+msgid "It's your turn to sing, "
+msgstr "É sua vez de cantar, "
+
+#: project/karatube.py:540
+msgid "Your song '%(song)s' will start now"
+msgstr "Sua música '%(song)s' começará agora"
 

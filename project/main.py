@@ -38,6 +38,7 @@ from .karatube import (
     queue_get,
     check_video,
     musicbrainz_search,
+    singer_warning,
     youtube_download,
     youtube_download_api,
 )
@@ -98,6 +99,7 @@ def profile_post():
     language = request.form.get("lang_selection")
     theme = request.form.get("theme_selection")
     roomid = request.form.get("room_selection")
+    warning = request.form.get("warn_selection")
 
     if password != repass:
         flash(_("Password do not match"))
@@ -119,6 +121,7 @@ def profile_post():
     current_user.language = language
     current_user.theme = theme
     current_user.roomid = roomid
+    current_user.warning = warning
 
     db.session.add(current_user)
     db.session.commit()
@@ -559,6 +562,7 @@ def screenupdate():
                         queue_update = Queue.query.filter_by(id=queue_item.id).first()
                         queue_update.status = "P"
                         db.session.commit()
+                        singer_warning(queue_item.id)
                 first = False
             else:
                 player_data.next_singer = queue_item.singer
@@ -626,6 +630,7 @@ def queueupdate():
                 queue_next.status = "P"
                 # db.session.add(queue_next)
                 db.session.commit()
+                singer_warning(queue_next.id)
                 break
     except:
         1 == 1
