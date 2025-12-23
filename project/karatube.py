@@ -531,7 +531,7 @@ def singer_warning(queueid):
         queue_item = Queue.query.filter_by(id=queueid).first()
         singer = User.query.filter_by(id=queue_item.userid).first()
         song = Song.query.filter_by(youtubeid=queue_item.youtubeid).first()
-        message = _("It's your turn to sing, ") + song.name + " - " + singer.name
+        message = singer.name + ". " + _("It's your turn to sing: ") + song.name + " - " + song.artist
         if singer.warning == "X":
             whatsapp_send_message(
                         base_url=WHATSAPP_BASE_URL,

@@ -542,6 +542,10 @@ msgstr "Descrição"
 msgid "It's your turn to sing, "
 msgstr "É sua vez de cantar, "
 
+#: project/karatube.py:534
+msgid "It's your turn to sing: "
+msgstr "É sua vez de cantar: "
+
 #: project/karatube.py:540
 msgid "Your song '%(song)s' will start now"
 msgstr "Sua música '%(song)s' começará agora"

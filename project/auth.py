@@ -131,6 +131,7 @@ def signup_post():
         theme="dark",
         roomadm="",
         roomid=roomid,
+        warning="X",
     )
 
     # add the new user to the database

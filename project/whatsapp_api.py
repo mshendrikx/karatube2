@@ -74,4 +74,9 @@ def whatsapp_get_numberid(base_url, api_key, session, contact):
     except Exception as e:
         return None
 
-    return response.json().get("result", None).get("_serialized", None)
+    try:
+        whatsapp_id = response.json().get("result", None).get("_serialized", None)
+    except Exception as e:
+        return None
+
+    return whatsapp_id
