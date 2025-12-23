@@ -354,7 +354,7 @@ def addqueue(youtubeid, userid):
             flash("alert-warning")
         else:
             if check_video(youtubeid=youtubeid):
-                if queue_add(current_user.roomid, userid, youtubeid, ""):
+                if queue_add(current_user.roomid, userid, youtubeid, "", current_user.id):
                     flash(_("Song added to queue"))
                     flash("alert-success")
                 else:
@@ -369,7 +369,7 @@ def addqueue(youtubeid, userid):
                         flash(_("There is no video file, download again"))
                         flash("alert-danger")
                     else:
-                        if queue_add(current_user.roomid, userid, youtubeid, "D"):
+                        if queue_add(current_user.roomid, userid, youtubeid, "D", current_user.id):
                             flash(_("Downloading video, wait finish"))
                             flash("alert-warning")
                         else:

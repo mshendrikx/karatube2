@@ -11,6 +11,10 @@ from .models import User, Room, Roomadm
 from .whatsapp_api import whatsapp_send_message, whatsapp_get_numberid
 from . import db
 
+WHATSAPP_BASE_URL = os.environ.get("WHATSAPP_BASE_URL")
+WHATSAPP_API_KEY = os.environ.get("WHATSAPP_API_KEY")
+WHATSAPP_SESSION = os.environ.get("WHATSAPP_SESSION")
+
 auth = Blueprint('auth', __name__)
 
 class RecoverLoginForm(FlaskForm):
@@ -97,6 +101,17 @@ def signup_post():
         flash("alert-danger")
         return redirect(url_for("auth.signup"))
 
+    whatsapp_id = whatsapp_get_numberid(
+        base_url=WHATSAPP_BASE_URL,
+        api_key=WHATSAPP_API_KEY,
+        session=WHATSAPP_SESSION,
+        contact=mobile,
+    )
+    if whatsapp_id is None:
+        flash(_("WhatsApp number is not registered"))
+        flash("alert-danger")
+        return redirect(url_for("auth.signup"))
+        
     room = Room.query.filter_by(roomid=roomid).first()
 
     if not room or room.password != roompass:
@@ -111,6 +126,7 @@ def signup_post():
         email=email,
         mobile=mobile,
         admin="",
+        whatsapp_id=whatsapp_id,
         language=language,
         theme="dark",
         roomadm="",
@@ -148,18 +164,21 @@ def recoverlogin_post():
     else:
         password = os.urandom(4).hex()
         contact_fail = whatsapp_send_message(
-            base_url=os.environ.get("WHATSAPP_BASE_URL"),
-            api_key=os.environ.get("WHATSAPP_API_KEY"),
-            session=os.environ.get("WHATSAPP_SESSION"),
-            contacts=[whatsapp_get_numberid(
-                base_url=os.environ.get("WHATSAPP_BASE_URL"),
-                api_key=os.environ.get("WHATSAPP_API_KEY"),
-                session=os.environ.get("WHATSAPP_SESSION"),
-                contact=mobile,
-            )],
-            content=_("Your new Karatube password is: ") + password,
+            base_url=WHATSAPP_BASE_URL,
+            api_key=WHATSAPP_API_KEY,
+            session=WHATSAPP_SESSION,
+            contacts=[user.whatsapp_id],
+            content=_("Your new Karatube password is: "),
             content_type="string",
         )
+        contact_fail = whatsapp_send_message(
+            base_url=WHATSAPP_BASE_URL,
+            api_key=WHATSAPP_API_KEY,
+            session=WHATSAPP_SESSION,
+            contacts=[user.whatsapp_id],
+            content=password,
+            content_type="string",
+        )        
         if not contact_fail:
             user.password = generate_password_hash(password, method="pbkdf2:sha256")
             db.session.commit()
