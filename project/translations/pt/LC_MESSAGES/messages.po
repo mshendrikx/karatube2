@@ -232,6 +232,18 @@ msgstr "Usuário removido como administrador."
 msgid "Room not exists."
 msgstr "Sala não existe."
 
+#: project/templates/room.html:29
+msgid "Room password:"
+msgstr "Senha da sala:"
+
+#: project/templates/room.html:31
+msgid "Generate new password"
+msgstr "Gerar nova senha"
+
+#: project/main.py:1018
+msgid "Room password updated."
+msgstr "Senha da sala atualizada."
+
 #: project/main.py:931
 msgid "Room deleted."
 msgstr "Sala excluída."

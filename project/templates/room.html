@@ -78,7 +78,14 @@
             <button class="btn btn-outline-primary">{{ _('Update') }}</button>
         </div>
     </form>
-
+    <br>
+    <form method="POST" action="{{ url_for('main.updateroompassword') }}">
+        <div class="input-group">
+            <label for="roompass">{{ _('Room password:') }}&nbsp;&nbsp;</label>
+            <input type="text" class="form-control" id="roompass" name="roompass" value="{{ room.password }}" readonly>
+            <button class="btn btn-outline-primary">{{ _('Generate new password') }}</button>
+        </div>
+    </form>
     <br>
 </div>
 <br>

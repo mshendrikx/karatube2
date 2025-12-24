@@ -1033,6 +1033,33 @@ def changeroom_post():
     return redirect(url_for("main.profile"))
 
 
+@main.route('/updateroompassword', methods=['POST'])
+@login_required
+def updateroompassword_post():
+
+    # Only room admin or global admin can update the room password
+    if current_user.roomadm != "X" and current_user.admin != "X":
+        flash(_("User must be an administrator."))
+        flash("alert-danger")
+        return redirect(url_for("main.roomcontrol"))
+
+    room = Room.query.filter_by(roomid=current_user.roomid).first()
+    if not room:
+        flash(_("Room not available."))
+        flash("alert-danger")
+        return redirect(url_for("main.roomcontrol"))
+
+    # generate a random 8 character hex password
+    newpass = os.urandom(4).hex()
+    room.password = newpass
+    db.session.commit()
+
+    flash(_("Room password updated."))
+    flash("alert-success")
+
+    return redirect(url_for("main.roomcontrol"))
+
+
 @main.route("/barcode")
 @login_required
 def barcode():
