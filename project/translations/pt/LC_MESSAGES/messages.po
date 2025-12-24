@@ -546,6 +546,18 @@ msgstr "Bem-vindo ao KaraTube!"
 msgid "KaraTube is a collaborative karaoke platform where users can join rooms, queue songs, and enjoy singing together!"
 msgstr "KaraTube é uma plataforma de karaokê colaborativa onde os usuários podem entrar em salas, adicionar músicas à fila e se divertir cantando juntos!"
 
+#: project/templates/profile.html:116
+msgid "Delete account"
+msgstr "Excluir conta"
+
+#: project/templates/profile.html:121
+msgid "Are you sure you want to delete your account? This action cannot be undone."
+msgstr "Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita."
+
+#: project/main.py:962
+msgid "Fail to delete user"
+msgstr "Falha ao excluir o usuário"
+
 #: project/karatube.py:533
 msgid "It's your turn to sing, "
 msgstr "É sua vez de cantar, "

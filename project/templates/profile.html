@@ -164,6 +164,10 @@
     <input type="hidden" class="form-control" id="roompass" name="roompass" value="" required />
     <button hidden class="btn btn-outline-primary" id="changeroom"></button>
   </form>
+  <br />
+  <form action="/deleteaccount" method="POST" id="deleteAccountForm">
+    <button type="submit" class="btn btn-danger" id="deleteAccountBtn">{{ _('Delete account') }}</button>
+  </form>
 </div>
 
 <script>
@@ -293,6 +297,16 @@
     if (this.value && !iti.isValidNumber()) {
       this.classList.add("is-invalid");
       phoneError.textContent = MSG_VALID_PHONE;
+    }
+  });
+</script>
+
+<script>
+  // Confirm before deleting account
+  document.getElementById('deleteAccountForm').addEventListener('submit', function(e) {
+    const confirmed = confirm("{{ _('Are you sure you want to delete your account? This action cannot be undone.') }}");
+    if (!confirmed) {
+      e.preventDefault();
     }
   });
 </script>

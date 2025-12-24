@@ -5,7 +5,7 @@ import io
 import base64
 import time
 
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, logout_user
 from urllib.request import urlretrieve
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_babel import gettext as _
@@ -987,6 +987,26 @@ def updateuser():
     db.session.commit()
 
     return redirect(url_for("main.configuration"))
+
+
+@main.route('/deleteaccount', methods=['POST'])
+@login_required
+def deleteaccount_post():
+    try:
+        userid = current_user.id
+        # remove user and related records
+        User.query.filter_by(id=userid).delete()
+        Roomadm.query.filter_by(userid=userid).delete()
+        Queue.query.filter_by(userid=userid).delete()
+        db.session.commit()
+        logout_user()
+        flash(_("User deleted from database."))
+        flash("alert-success")
+    except Exception:
+        db.session.rollback()
+        flash(_("Fail to delete user"))
+        flash("alert-danger")
+    return redirect(url_for('main.index'))
 
 
 @main.route("/changeroom", methods=["POST"])
