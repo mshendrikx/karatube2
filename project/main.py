@@ -497,12 +497,16 @@ def player():
         flash("alert-danger")
         return redirect(url_for("main.index"))
 
-    roompass = os.environ.get("ROOM_PASS")
-    if roompass == None:
-        roompass = os.urandom(4).hex()
-        qrcode_data = str(current_user.roomid) + "§" + str(roompass)
-    room.password = roompass
-    db.session.commit()
+    # Ensure a room password exists and build qrcode_data
+    if room.password:
+        roompass = room.password
+    else:
+        roompass = os.environ.get("ROOM_PASS")
+        if roompass is None:
+            roompass = os.urandom(4).hex()
+        room.password = roompass
+        db.session.commit()
+    qrcode_data = str(current_user.roomid) + "§" + str(roompass)
 
     # Create a QR code object with desired error correction level
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L)
@@ -515,10 +519,16 @@ def player():
     # Get image data as bytes
     image_bytes = buffer.getvalue()
     signup_img = base64.b64encode(image_bytes).decode("utf-8")
-    # qrcode_data = str(os.environ.get("KARATUBE_URL")) + "/login"
-    qrcode_data = str(os.environ.get("KARATUBE_URL"))
-    # Create a QR code object with desired error correction level
-    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L)
+    # Build a reliable full URL for HOST QR (fallback to request.host_url when env var missing)
+    kurl_env = os.environ.get("KARATUBE_URL")
+    if kurl_env and isinstance(kurl_env, str) and kurl_env.strip():
+        kurl = kurl_env if kurl_env.lower().startswith(("http://", "https://")) else f"https://{kurl_env}"
+    else:
+        kurl = request.host_url.rstrip("/")
+
+    qrcode_data = f"{kurl}/login"
+    # Use better error correction and larger box size for reliability
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=6)
     qr.add_data(qrcode_data)
     qr.make(fit=True)
     qrcodeimg = qr.make_image(fill_color="black", back_color="white")
@@ -650,7 +660,7 @@ def createroom():
     # login code goes here
     userid = request.form.get("userid")
     roomid = request.form.get("roomid")
-    roompass = os.urandom(12).hex()
+    roompass = os.urandom(4).hex()
 
     user = User.query.filter_by(id=userid).first()
     # check if the user actually exists
@@ -1035,7 +1045,7 @@ def changeroom_post():
 
 @main.route('/updateroompassword', methods=['POST'])
 @login_required
-def updateroompassword_post():
+def updateroompassword():
 
     # Only room admin or global admin can update the room password
     if current_user.roomadm != "X" and current_user.admin != "X":
@@ -1078,10 +1088,16 @@ def barcode():
     image_bytes = buffer.getvalue()
     signup_img = base64.b64encode(image_bytes).decode("utf-8")
 
-    # qrcode_data = str(os.environ.get("KARATUBE_URL")) + "/login"
-    qrcode_data = str(os.environ.get("KARATUBE_URL"))
-    # Create a QR code object with desired error correction level
-    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L)
+    # Build a reliable full URL for HOST QR (fallback to request.host_url when env var missing)
+    kurl_env = os.environ.get("KARATUBE_URL")
+    if kurl_env and isinstance(kurl_env, str) and kurl_env.strip():
+        kurl = kurl_env if kurl_env.lower().startswith(("http://", "https://")) else f"https://{kurl_env}"
+    else:
+        kurl = request.host_url.rstrip("/")
+
+    qrcode_data = f"{kurl}/login"
+    # Use better error correction and larger box size for reliability
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=6)
     qr.add_data(qrcode_data)
     qr.make(fit=True)
     qrcodeimg = qr.make_image(fill_color="black", back_color="white")
