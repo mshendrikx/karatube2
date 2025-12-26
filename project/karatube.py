@@ -9,7 +9,7 @@ import json
 from flask_babel import gettext as _
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from youtubesearchpython import VideosSearch
+from yt_dlp import YoutubeDL
 from pathlib import Path
 from .models import User, Song, Queue
 from pytubefix import YouTube
@@ -298,33 +298,62 @@ def is_karaoke(title):
     )
 
 
-def youtube_search(search_arg):
+def youtube_search(search_arg, max_results=30):
 
     replaces = ["&", "/", ".", ";", ",", ":", "?"]
 
+    # sanitize search term
+    search_term = search_arg
     for replace in replaces:
-        search_term = search_arg.replace(replace, " ")
+        search_term = search_term.replace(replace, " ")
     search_term = search_term + " karaoke"
-    videos_search = VideosSearch(search_term, region="BR", language="pt")
+
+    # guard max_results to reasonable integer
+    try:
+        max_results = int(max_results)
+        if max_results < 1:
+            max_results = 1
+    except Exception:
+        max_results = 30
+
+    ydl_opts = {
+        'quiet': True,
+        'skip_download': True,
+        'extract_flat': True,  # faster listing
+        'nocheckcertificate': True,
+    }
+
+    query = f"ytsearch{max_results}:" + search_term
     video_list = []
 
-    count = 0
-    while count < 5:
-        for video in videos_search.resultComponents:
-            try:
-                if video["type"] != "video":
-                    continue
-                if not is_karaoke(video["title"]):
-                    continue
-                youtube_video = YoutubeVideos()
-                youtube_video.id = video["id"]
-                youtube_video.thumb = video["thumbnails"][0]["url"].split("?")[0]
-                youtube_video.description = video["title"]
-                video_list.append(youtube_video)
-            except:
+    try:
+        with YoutubeDL(ydl_opts) as ydl:
+            result = ydl.extract_info(query, download=False)
+            entries = result.get('entries', []) if isinstance(result, dict) else []
+    except Exception:
+        return []
+
+    for entry in entries:
+        try:
+            # Ensure it has a title
+            title = entry.get('title', '')
+            if title == "":
                 continue
-        videos_search.next()
-        count += 1
+            if not is_karaoke(title):
+                continue
+
+            youtube_video = YoutubeVideos()
+            youtube_video.id = entry.get('id') or entry.get('webpage_url', '').split('v=')[-1]
+
+            thumbs = entry.get('thumbnails') or []
+            thumb = ''
+            if thumbs:
+                thumb = thumbs[0].get('url', '')
+            youtube_video.thumb = thumb.split('?')[0] if thumb else ''
+            youtube_video.description = title
+            video_list.append(youtube_video)
+        except:
+            continue
 
     return video_list
 
