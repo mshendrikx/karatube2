@@ -3,30 +3,57 @@
 {% block headscript %}
 <meta http-equiv="refresh" content="10" />
 <style>
-  /* Keep QR blocks ALWAYS to the right of the table. Table will scroll when necessary. */
+  /* Barcodes on top row, table below (full-width). */
   .barcode-wrapper {
-    display: grid;
-    grid-template-columns: 1fr minmax(120px, 320px);
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    align-items: start;
     padding: 1rem;
     box-sizing: border-box;
-    min-width: 0; /* allow children to shrink within grid */
+    min-width: 0;
+  }
+
+  .qr-row {
+    display: flex;
+    justify-content: space-between; /* left QR on the left, right QR on the right */
+    gap: 2rem;
+    align-items: center;
+    width: 100%;
+    flex-wrap: nowrap; /* keep them at extremes */
+  }
+
+  .qr-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 140px;
+    max-width: 320px;
+  }
+
+  .qr-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: clamp(14px, 1.8vw, 18px);
+  }
+
+  .qr-block img {
+    width: min(40vmin, 280px);
+    height: auto;
+    object-fit: contain;
   }
 
   .queue-table-container {
     width: 100%;
-    /* allow content to flow and force QR to drop below when viewport is short */
-    max-height: none;
-    overflow: visible; /* NO scrollbars */
+    overflow: visible; /* no scrollbars on container */
   }
 
   .queue-table {
     width: 100%;
-    min-width: 480px; /* allow some horizontal scrolling on very narrow screens */
-    table-layout: fixed; /* keep columns controlled */
+    table-layout: fixed;
     border-collapse: collapse;
     word-break: break-word;
+    min-width: 0;
   }
 
   .queue-table th,
@@ -46,111 +73,36 @@
     font-size: clamp(12px, 1.6vw, 14px);
   }
 
-  .qr-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    align-items: center;
-    /* default: sticky to the right side when enough space */
-    position: sticky;
-    top: 1rem; /* keep QR blocks visible when there is space */
-    height: auto;
-    justify-content: flex-start;
-    flex: 0 0 auto; /* do not shrink below min */
-    min-height: 0;
-  }
-
-  .qr-block {
-    text-align: center;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .qr-block .qr-label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    display: block;
-    font-size: clamp(14px, 1.8vw, 18px);
-  }
-
-  .qr-block img {
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    max-height: calc(100vh - 200px); /* ensure QR never exceeds viewport height */
-    object-fit: contain;
-  }
-
-  .icon-small {
-    width: auto;
-    height: 24px;
-    vertical-align: middle;
-  }
-
-  /* Small screens: keep two-column layout but allow QR to drop below if vertical space is low */
   @media (max-width: 900px) {
-    .barcode-wrapper {
-      grid-template-columns: 1fr minmax(100px, 240px);
+    .qr-row {
+      flex-direction: column;
+      justify-content: center; /* center when stacked */
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .qr-block img {
+      width: min(60vmin, 220px);
     }
 
     .queue-table th,
     .queue-table td {
-      white-space: nowrap; /* keep single-line entries to avoid pushing QR down unnecessarily */
-    }
-
-    .queue-table td {
-      font-size: clamp(11px, 2.4vw, 14px);
-    }
-
-    .qr-block img {
-      max-height: calc(100vh - 160px);
-      width: auto;
-    }
-
-    /* If the viewport height is small, stack the QR blocks below the table */
-    @media (max-height: 600px) {
-      .barcode-wrapper {
-        grid-template-columns: 1fr; /* stack vertically */
-      }
-
-      .qr-container {
-        position: static; /* allow QR to flow beneath table */
-        order: 2;
-        align-items: center;
-        margin-top: 0.5rem;
-      }
-
-      .queue-table-container {
-        order: 1;
-      }
-
-      .queue-table th,
-      .queue-table td {
-        white-space: normal; /* allow wrapping to reduce width */
-      }
+      white-space: normal;
     }
   }
 
-  /* Very narrow phones: reduce QR size further */
   @media (max-width: 420px) {
-    .barcode-wrapper {
-      grid-template-columns: 1fr minmax(80px, 180px);
-      gap: 0.5rem;
-      padding: 0.5rem;
-    }
-
-    .qr-block .qr-label {
-      font-size: clamp(12px, 2.4vw, 14px);
+    .qr-row {
+      gap: 1rem;
     }
 
     .qr-block img {
-      max-height: calc(100vh - 140px);
+      width: min(60vmin, 180px);
     }
 
-    .queue-table {
-      min-width: 420px; /* allow horizontal scroll to keep QR at right */
+    .queue-table th,
+    .queue-table td {
+      font-size: clamp(11px, 2.6vw, 13px);
     }
   }
 </style>
@@ -158,6 +110,18 @@
 
 {% block content %}
 <div class="barcode-wrapper">
+  <div class="qr-row">
+    <div class="qr-block">
+      <span class="qr-label">{{ _('ROOM') }}</span>
+      <img id="signup-qrcode" src="data:image/png;base64,{{ signup_img }}" alt="signup qr" />
+    </div>
+
+    <div class="qr-block">
+      <span class="qr-label">{{ _('HOST') }}</span>
+      <img id="login-qrcode" src="data:image/png;base64,{{ login_img }}" alt="login qr" />
+    </div>
+  </div>
+
   <div class="queue-table-container">
     <table class="table queue-table">
       <thead>
@@ -191,18 +155,6 @@
         {% endfor %}
       </tbody>
     </table>
-  </div>
-
-  <div class="qr-container">
-    <div class="qr-block">
-      <span class="qr-label">{{ _('ROOM') }}</span>
-      <img id="signup-qrcode" src="data:image/png;base64,{{ signup_img }}" alt="signup qr" />
-    </div>
-
-    <div class="qr-block">
-      <span class="qr-label">{{ _('HOST') }}</span>
-      <img id="login-qrcode" src="data:image/png;base64,{{ login_img }}" alt="login qr" />
-    </div>
   </div>
 </div>
 {% endblock %}
