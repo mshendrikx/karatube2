@@ -138,6 +138,7 @@ def create_app():
             new_room = Room(
                 roomid="main",
                 password=generate_password_hash("room", method="pbkdf2:sha256"),
+                barcode=1,
                 songint=10,
             )
             new_roomadm = Roomadm(roomid="main", userid="admin")

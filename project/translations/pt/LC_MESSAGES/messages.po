@@ -278,25 +278,25 @@ msgstr "Sala do usuário alterada"
 
 #: project/templates/barcode.html:14 project/templates/queue.html:13
 msgid "Singer"
-msgstr ""
+msgstr "Cantor"
 
 #: project/templates/barcode.html:15 project/templates/musicdb.html:11
 #: project/templates/musics.html:31 project/templates/queue.html:14
 msgid "Music"
-msgstr ""
+msgstr "Música"
 
 #: project/templates/barcode.html:16 project/templates/musicdb.html:10
 #: project/templates/queue.html:15
 msgid "Artist"
-msgstr ""
+msgstr "Artista"
 
 #: project/templates/barcode.html:51
 msgid "ROOM"
-msgstr ""
+msgstr "Sala"
 
 #: project/templates/barcode.html:61
 msgid "HOST"
-msgstr ""
+msgstr "Host"
 
 #: project/templates/base.html:5
 msgid "Flask App"
@@ -430,7 +430,7 @@ msgstr "Por favor, insira um número de telefone válido"
 
 #: project/templates/mobilechange.html:6
 msgid "Update Mobile Verify Code:"
-msgstr ""
+msgstr "Atualizar código de verificação do celular:"
 
 #: project/templates/musics.html:11
 msgid "Singer:"
