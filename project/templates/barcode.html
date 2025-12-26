@@ -15,11 +15,11 @@
 
   .qr-row {
     display: flex;
-    justify-content: space-between; /* left QR on the left, right QR on the right */
-    gap: 2rem;
     align-items: center;
-    width: 100%;
-    flex-wrap: nowrap; /* keep them at extremes */
+    width: 50%; /* set width to 50% */
+    flex-wrap: wrap; /* allow barcodes to wrap to next line */
+    flex-direction: row; /* set flex-direction to row */
+    justify-content: space-between; /* add space between the two barcodes */
   }
 
   .qr-block {
@@ -27,85 +27,36 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 140px;
-    max-width: 320px;
-  }
-
-  .qr-label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    font-size: clamp(14px, 1.8vw, 18px);
+    min-width: 200px; /* set width to a fixed value */
+    max-width: 200px; /* set width to a fixed value */
+    height: 200px; /* set height to a fixed value */
   }
 
   .qr-block img {
-    width: min(40vmin, 280px);
-    height: auto;
-    object-fit: contain;
+    width: 200px; /* set width to a fixed value */
+    height: 200px; /* set height to a fixed value */
   }
 
+  .qr-row > div:first-child {
+    order: 1; /* place the left barcode first */
+    margin-left: 0; /* remove default margin */
+  }
+
+  .qr-row > div:last-child {
+    order: 2; /* place the right barcode second */
+    margin-right: 0; /* remove default margin */
+  }
+
+  .qr-row > div {
+    flex-shrink: 0; /* prevent barcodes from shrinking */
+  }
+
+  /* Move the table below the barcodes */
   .queue-table-container {
-    width: 100%;
-    overflow: visible; /* no scrollbars on container */
-  }
-
-  .queue-table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    word-break: break-word;
-    min-width: 0;
-  }
-
-  .queue-table th,
-  .queue-table td {
-    padding: 0.5rem 0.75rem;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .queue-table td {
-    font-size: clamp(12px, 1.6vw, 16px);
-  }
-
-  .queue-table th {
-    font-size: clamp(12px, 1.6vw, 14px);
-  }
-
-  @media (max-width: 900px) {
-    .qr-row {
-      flex-direction: column;
-      justify-content: center; /* center when stacked */
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .qr-block img {
-      width: min(60vmin, 220px);
-    }
-
-    .queue-table th,
-    .queue-table td {
-      white-space: normal;
-    }
-  }
-
-  @media (max-width: 420px) {
-    .qr-row {
-      gap: 1rem;
-    }
-
-    .qr-block img {
-      width: min(60vmin, 180px);
-    }
-
-    .queue-table th,
-    .queue-table td {
-      font-size: clamp(11px, 2.6vw, 13px);
-    }
+    margin-top: 1rem; /* add some spacing between barcodes and table */
   }
 </style>
+
 {% endblock %}
 
 {% block content %}
