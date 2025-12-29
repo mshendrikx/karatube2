@@ -43,6 +43,7 @@ from .karatube import (
     youtube_download_api,
 )
 
+
 class PlayerData:
     singer = ""
     song = ""
@@ -67,7 +68,6 @@ WHATSAPP_SESSION = os.environ.get("WHATSAPP_SESSION")
 def index():
 
     return render_template("index.html", user=current_user)
-
 
 
 @main.route("/profile")
@@ -204,6 +204,7 @@ def mobilechange_post():
         flash("alert-danger")
         return redirect(url_for("main.mobilechange"))
 
+
 @main.route("/musics")
 @login_required
 def musics():
@@ -308,7 +309,7 @@ def youtubedl(song, id, image, singer):
     else:
         try:
             downloaded = 0
-            #if youtube_download_api(youtubeid=id):
+            # if youtube_download_api(youtubeid=id):
             #    downloaded = 1
             new_song = Song(
                 youtubeid=id,
@@ -319,7 +320,7 @@ def youtubedl(song, id, image, singer):
             db.session.add(new_song)
             db.session.commit()
             result = True
-            
+
         except:
             result = False
 
@@ -350,14 +351,19 @@ def addqueue(youtubeid, userid):
 
     try:
         queue_check = Queue.query.filter_by(
-            userid=current_user.id, youtubeid=youtubeid, roomid=current_user.roomid, created_by=current_user.id
+            userid=current_user.id,
+            youtubeid=youtubeid,
+            roomid=current_user.roomid,
+            created_by=current_user.id,
         ).first()
         if queue_check:
             flash(_("Song alredy in queue"))
             flash("alert-warning")
         else:
             if check_video(youtubeid=youtubeid):
-                if queue_add(current_user.roomid, userid, youtubeid, "", current_user.id):
+                if queue_add(
+                    current_user.roomid, userid, youtubeid, "", current_user.id
+                ):
                     flash(_("Song added to queue"))
                     flash("alert-success")
                 else:
@@ -372,7 +378,9 @@ def addqueue(youtubeid, userid):
                         flash(_("There is no video file, download again"))
                         flash("alert-danger")
                     else:
-                        if queue_add(current_user.roomid, userid, youtubeid, "D", current_user.id):
+                        if queue_add(
+                            current_user.roomid, userid, youtubeid, "D", current_user.id
+                        ):
                             flash(_("Downloading video, wait finish"))
                             flash("alert-warning")
                         else:
@@ -522,7 +530,11 @@ def player():
     # Build a reliable full URL for HOST QR (fallback to request.host_url when env var missing)
     kurl_env = os.environ.get("KARATUBE_URL")
     if kurl_env and isinstance(kurl_env, str) and kurl_env.strip():
-        kurl = kurl_env if kurl_env.lower().startswith(("http://", "https://")) else f"https://{kurl_env}"
+        kurl = (
+            kurl_env
+            if kurl_env.lower().startswith(("http://", "https://"))
+            else f"https://{kurl_env}"
+        )
     else:
         kurl = request.host_url.rstrip("/")
 
@@ -999,7 +1011,7 @@ def updateuser():
     return redirect(url_for("main.configuration"))
 
 
-@main.route('/deleteaccount', methods=['POST'])
+@main.route("/deleteaccount", methods=["POST"])
 @login_required
 def deleteaccount_post():
     try:
@@ -1016,7 +1028,7 @@ def deleteaccount_post():
         db.session.rollback()
         flash(_("Fail to delete user"))
         flash("alert-danger")
-    return redirect(url_for('main.index'))
+    return redirect(url_for("main.index"))
 
 
 @main.route("/changeroom", methods=["POST"])
@@ -1043,7 +1055,7 @@ def changeroom_post():
     return redirect(url_for("main.profile"))
 
 
-@main.route('/updateroompassword', methods=['POST'])
+@main.route("/updateroompassword", methods=["POST"])
 @login_required
 def updateroompassword():
 
@@ -1091,7 +1103,11 @@ def barcode():
     # Build a reliable full URL for HOST QR (fallback to request.host_url when env var missing)
     kurl_env = os.environ.get("KARATUBE_URL")
     if kurl_env and isinstance(kurl_env, str) and kurl_env.strip():
-        kurl = kurl_env if kurl_env.lower().startswith(("http://", "https://")) else f"https://{kurl_env}"
+        kurl = (
+            kurl_env
+            if kurl_env.lower().startswith(("http://", "https://"))
+            else f"https://{kurl_env}"
+        )
     else:
         kurl = request.host_url.rstrip("/")
 
