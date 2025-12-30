@@ -16,10 +16,9 @@
   .qr-row {
     display: flex;
     align-items: center;
-    width: 50%; /* set width to 50% */
+    width: 100%; /* set width to 100% */
     flex-wrap: wrap; /* allow barcodes to wrap to next line */
-    flex-direction: row; /* set flex-direction to row */
-    justify-content: space-between; /* add space between the two barcodes */
+    justify-content: flex-end; /* align barcodes to the right */
   }
 
   .qr-block {
@@ -39,12 +38,12 @@
 
   .qr-row > div:first-child {
     order: 1; /* place the left barcode first */
-    margin-left: 0; /* remove default margin */
+    margin-right: auto; /* move the left barcode to the left */
   }
 
   .qr-row > div:last-child {
     order: 2; /* place the right barcode second */
-    margin-right: 0; /* remove default margin */
+    margin-left: auto; /* move the right barcode to the right */
   }
 
   .qr-row > div {

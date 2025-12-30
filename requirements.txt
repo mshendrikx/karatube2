@@ -10,7 +10,6 @@ python-dotenv
 requests
 musicbrainzngs
 qrcode
-
 pytz
 Pillow
 httpx==0.27.2

@@ -1,5 +1,4 @@
 import uuid
-import requests
 import os
 
 from flask import Blueprint, current_app, render_template, redirect, url_for, request, flash, session

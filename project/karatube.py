@@ -4,7 +4,6 @@ import requests
 import os
 import smtplib
 import pika
-import json
 
 from flask_babel import gettext as _
 from email.mime.multipart import MIMEMultipart
