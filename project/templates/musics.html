@@ -17,8 +17,8 @@
         </div>
         <br>
         <div class="input-group">
-            <input type="text" class="form-control" id="search_string" placeholder={{ _('"Artist - Music"') }} name="search_string"
-                required>
+            <input type="text" class="form-control" id="search_string" placeholder={{ _('"Artist - Music"') }}
+                name="search_string" required>
             <button type="submit" class="btn btn-outline-primary">{{ _('Search Youtube') }}</button>
         </div>
     </form>
@@ -27,7 +27,9 @@
         <thead>
             <tr>
                 <td></td>
+                {% if current_user.icons == "X" %}
                 <td>{{ _('Preview') }}</td>
+                {% endif %}
                 <td>{{ _('Music') }}</td>
                 {% if current_user.admin == "X" %}
                 <td></td>
@@ -42,27 +44,33 @@
                     <a class="clickable-image" id="{{ song.youtubeid }}"
                         href="{{ url_for('main.addqueue', youtubeid=song.youtubeid, userid=current_user.id) }}">
                         {% if current_user.theme == 'light' %}
-                        <img src="{{ url_for('static', filename='images/icon-addlist-light.png') }}" height="24" width="24">
+                        <img src="{{ url_for('static', filename='images/icon-addlist-light.png') }}" height="24"
+                            width="24">
                         {% else %}
-                        <img src="{{ url_for('static', filename='images/icon-addlist-dark.png') }}" height="24" width="24">
+                        <img src="{{ url_for('static', filename='images/icon-addlist-dark.png') }}" height="24"
+                            width="24">
                         {% endif %}
                     </a>
                     {% endif %}
                 </td>
+                {% if current_user.icons == "X" %}
                 <td>
                     <a href="{{ url_for('main.miniplayer', youtubeid=song.youtubeid) }}">
                         <img src="/static/thumbs/{{ song.youtubeid }}.jpg" height="64" width="64">
                     </a>
                 </td>
+                {% endif %}
                 <td>{{ song.artist }} - {{ song.name }}</td>
                 {% if current_user.admin == "X" %}
                 <td>
                     <a class="clickable-image" id="{{ song.youtubeid }}"
                         href="{{ url_for('main.delsong', youtubeid=song.youtubeid) }}">
                         {% if current_user.theme == 'light' %}
-                        <img src="{{ url_for('static', filename='images/icon-delete-light.png') }}" height="24" width="24">
+                        <img src="{{ url_for('static', filename='images/icon-delete-light.png') }}" height="24"
+                            width="24">
                         {% else %}
-                        <img src="{{ url_for('static', filename='images/icon-delete-dark.png') }}" height="24" width="24">
+                        <img src="{{ url_for('static', filename='images/icon-delete-dark.png') }}" height="24"
+                            width="24">
                         {% endif %}
                     </a>
                 </td>

@@ -100,6 +100,7 @@ def profile_post():
     theme = request.form.get("theme_selection")
     roomid = request.form.get("room_selection")
     warning = request.form.get("warn_selection")
+    icons = request.form.get("icons_selection")
 
     if password != repass:
         flash(_("Password do not match"))
@@ -122,6 +123,7 @@ def profile_post():
     current_user.theme = theme
     current_user.roomid = roomid
     current_user.warning = warning
+    current_user.icons = icons
 
     db.session.add(current_user)
     db.session.commit()

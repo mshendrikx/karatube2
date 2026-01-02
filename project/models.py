@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     roomid = db.Column(db.String(100))
     roomadm = db.Column(db.String(1))
     warning = db.Column(db.String(1))
+    icons = db.Column(db.String(1))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(
         db.DateTime,

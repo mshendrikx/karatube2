@@ -117,6 +117,22 @@
       <br />
       <div class="row">
         <div class="col-3">
+          <label for="icons_selection">{{ _('Icons:') }}</label>
+        </div>
+        <div class="col-3">
+          <select name="icons_selection" id="icons_selection" required>
+            {% if current_user.icons == 'X' %}
+            <option value="X" selected>{{ _('Yes') }}</option>
+            <option value="">{{ _('No') }}</option>
+            {% else %}
+            <option value="X">{{ _('Yes') }}</option>
+            <option value="" selected>{{ _('No') }}</option>
+            {% endif %}
+          </select>
+        </div>
+      </div>
+      <br />      <div class="row">
+        <div class="col-3">
           <label for="theme_selection">{{ _('Theme:') }}</label>
         </div>
         <div class="col-3">
