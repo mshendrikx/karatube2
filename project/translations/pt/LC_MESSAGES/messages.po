@@ -278,29 +278,29 @@ msgstr "Senha da sala atualizada."
 
 #: project/templates/barcode.html:65
 msgid "ROOM"
-msgstr ""
+msgstr "SALA"
 
 #: project/templates/barcode.html:70
 msgid "HOST"
-msgstr ""
+msgstr "SITE"
 
 #: project/templates/barcode.html:80 project/templates/queue.html:13
 msgid "Singer"
-msgstr ""
+msgstr "Cantor"
 
 #: project/templates/barcode.html:81 project/templates/musicdb.html:11
 #: project/templates/musics.html:33 project/templates/queue.html:14
 msgid "Music"
-msgstr ""
+msgstr "Música"
 
 #: project/templates/barcode.html:82 project/templates/musicdb.html:10
 #: project/templates/queue.html:15
 msgid "Artist"
-msgstr ""
+msgstr "Artista"
 
 #: project/templates/base.html:5
 msgid "Flask App"
-msgstr ""
+msgstr "App Flask"
 
 #: project/templates/base.html:35 project/templates/login.html:53
 msgid "Login"
@@ -312,29 +312,29 @@ msgstr ""
 
 #: project/templates/base.html:43
 msgid "Profile"
-msgstr ""
+msgstr "Perfil"
 
 #: project/templates/base.html:47
 msgid "Musics"
-msgstr ""
+msgstr "Músicas"
 
 #: project/templates/base.html:50
 msgid "Queue"
-msgstr ""
+msgstr "Fila"
 
 #: project/templates/base.html:55
 msgid "Barcode"
-msgstr ""
+msgstr "Barcode"
 
 #: project/templates/base.html:58 project/templates/configuration.html:41
 #: project/templates/configuration.html:59
 #: project/templates/configuration.html:75 project/templates/player.html:175
 msgid "Room"
-msgstr ""
+msgstr "Sala"
 
 #: project/templates/base.html:61
 msgid "Player"
-msgstr ""
+msgstr "Player"
 
 #: project/templates/base.html:66
 #, fuzzy
@@ -343,15 +343,15 @@ msgstr "Configuração atualizada."
 
 #: project/templates/base.html:70
 msgid "Logout"
-msgstr ""
+msgstr "Sair"
 
 #: project/templates/configuration.html:5
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 #: project/templates/configuration.html:8
 msgid "Song Library:"
-msgstr ""
+msgstr "Biblioteca de Músicas"
 
 #: project/templates/configuration.html:21
 msgid "LAST.FM API Key:"
@@ -363,17 +363,17 @@ msgstr ""
 
 #: project/templates/configuration.html:27
 msgid "Screen update sec:"
-msgstr ""
+msgstr "Atualizar Tela seg:"
 
 #: project/templates/configuration.html:32 project/templates/profile.html:170
 #: project/templates/room.html:78
 msgid "Update"
-msgstr ""
+msgstr "Atualizar"
 
 #: project/templates/configuration.html:38
 #, fuzzy
 msgid "Create Room"
-msgstr "Falha ao criar sala."
+msgstr "Criar sala."
 
 #: project/templates/configuration.html:43
 #, fuzzy
@@ -382,11 +382,11 @@ msgstr "Deve ser administrador."
 
 #: project/templates/configuration.html:49
 msgid "Save"
-msgstr ""
+msgstr "Gravar"
 
 #: project/templates/configuration.html:56
 msgid "Delete Room"
-msgstr ""
+msgstr "Apagar Sala"
 
 #: project/templates/configuration.html:65
 #: project/templates/configuration.html:83
@@ -401,48 +401,55 @@ msgstr "Usuário:"
 
 #: project/templates/configuration.html:81
 msgid "Admin"
-msgstr ""
+msgstr "Administrador"
 
 #: project/templates/configuration.html:82
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: project/templates/index.html:5
 msgid "Welcome to KaraTube!"
-msgstr ""
+msgstr "Bem Vindo ao Karatube"
 
 #: project/templates/index.html:8
 msgid ""
-"KaraTube is a collaborative karaoke platform where users can join rooms, "
-"queue songs, and enjoy singing together!"
+"Regular users must scan QR code in"
+" KaraTube player screen to change "
+"room or ask a room admin to "
+"add him."
 msgstr ""
+"Usuários regulares devem escanear o QR"
+" code na tela do reprodutor KaraTube"
+" para mudar de sala ou pedir "
+"que um administrador da sala os "
+"adicione."
 
 #: project/templates/login.html:26 project/templates/profile.html:58
 #: project/templates/recoverlogin.html:28 project/templates/signup.html:34
 msgid "Mobile:"
-msgstr ""
+msgstr "Celular"
 
 #: project/templates/login.html:50
 msgid "Remember me"
-msgstr ""
+msgstr "Lembre-me"
 
 #: project/templates/login.html:56
 msgid "Recover login data"
-msgstr ""
+msgstr "Recuperar Dados"
 
 #: project/templates/login.html:68 project/templates/profile.html:232
 #: project/templates/recoverlogin.html:51 project/templates/signup.html:74
 msgid "Please enter a phone number"
-msgstr ""
+msgstr "Entrar um número de celular"
 
 #: project/templates/login.html:69 project/templates/profile.html:233
 #: project/templates/recoverlogin.html:52 project/templates/signup.html:75
 msgid "Please enter a valid phone number"
-msgstr ""
+msgstr "Pof favor, entre um número válido"
 
 #: project/templates/mobilechange.html:6
 msgid "Update Mobile Verify Code:"
-msgstr ""
+msgstr "Atualizar código de verificação do celular"
 
 #: project/templates/musics.html:11
 #, fuzzy
@@ -451,39 +458,39 @@ msgstr "Usuário:"
 
 #: project/templates/musics.html:20
 msgid "\"Artist - Music\""
-msgstr ""
+msgstr "\"Artista - Música\""
 
 #: project/templates/musics.html:22
 msgid "Search Youtube"
-msgstr ""
+msgstr "Procurar no Youtube"
 
 #: project/templates/musics.html:31 project/templates/youtube.html:16
 msgid "Preview"
-msgstr ""
+msgstr "Preview"
 
 #: project/templates/player.html:152
 msgid "Singing:"
-msgstr ""
+msgstr "Cantando:"
 
 #: project/templates/player.html:162
 msgid "Now:"
-msgstr ""
+msgstr "Agora:"
 
 #: project/templates/player.html:168
 msgid "Next:"
-msgstr ""
+msgstr "Próximo"
 
 #: project/templates/player.html:179
 msgid "Host"
-msgstr ""
+msgstr "Site"
 
 #: project/templates/profile.html:24
 msgid "Welcome,"
-msgstr ""
+msgstr "Bem vindo,"
 
 #: project/templates/profile.html:28
 msgid "You must enter in a room"
-msgstr ""
+msgstr "Você deve entra em uma sala"
 
 #: project/templates/profile.html:32
 #, fuzzy
@@ -492,7 +499,7 @@ msgstr "Usuário já na sala"
 
 #: project/templates/profile.html:42 project/templates/signup.html:26
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: project/templates/profile.html:50 project/templates/signup.html:30
 msgid "E-mail:"
@@ -501,25 +508,25 @@ msgstr ""
 #: project/templates/profile.html:77 project/templates/signup.html:44
 #, fuzzy
 msgid "Re-type Password:"
-msgstr "Senha:"
+msgstr "Conferir Senha:"
 
 #: project/templates/profile.html:86
 msgid "Language:"
-msgstr ""
+msgstr "Idioma:"
 
 #: project/templates/profile.html:103
 msgid "Warning:"
-msgstr ""
+msgstr "Avisos:"
 
 #: project/templates/profile.html:108 project/templates/profile.html:111
 #: project/templates/profile.html:125 project/templates/profile.html:128
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: project/templates/profile.html:109 project/templates/profile.html:112
 #: project/templates/profile.html:126 project/templates/profile.html:129
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: project/templates/profile.html:120
 msgid "Icons:"
@@ -527,20 +534,20 @@ msgstr "Ícones"
 
 #: project/templates/profile.html:136
 msgid "Theme:"
-msgstr ""
+msgstr "Tema:"
 
 #: project/templates/profile.html:141 project/templates/profile.html:144
 msgid "Dark"
-msgstr ""
+msgstr "Escuro"
 
 #: project/templates/profile.html:142 project/templates/profile.html:145
 msgid "Light"
-msgstr ""
+msgstr "Claro"
 
 #: project/templates/profile.html:154 project/templates/queue.html:6
 #: project/templates/room.html:7
 msgid "Room:"
-msgstr ""
+msgstr "Sala:"
 
 #: project/templates/profile.html:175
 msgid ""
@@ -550,29 +557,29 @@ msgstr ""
 
 #: project/templates/profile.html:185
 msgid "Delete account"
-msgstr ""
+msgstr "Apagar conta"
 
 #: project/templates/profile.html:323
 msgid ""
 "Are you sure you want to delete your account? This action cannot be "
 "undone."
-msgstr ""
+msgstr "CErteza que quer apagar? Esta ação não pode ser defeita"
 
 #: project/templates/recoverlogin.html:36
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
 #: project/templates/room.html:12
 msgid "Player Controls"
-msgstr ""
+msgstr "Controles"
 
 #: project/templates/room.html:51
 msgid "Config"
-msgstr ""
+msgstr "Configuração"
 
 #: project/templates/room.html:75
 msgid "Song Interval:"
-msgstr ""
+msgstr "Intervalo entre músicas"
 
 #: project/templates/room.html:84
 #, fuzzy
@@ -581,7 +588,7 @@ msgstr "Senha:"
 
 #: project/templates/room.html:86
 msgid "Generate new password"
-msgstr ""
+msgstr "Gerar nova senha"
 
 #: project/templates/room.html:95
 #, fuzzy
@@ -590,7 +597,7 @@ msgstr "Usuário:"
 
 #: project/templates/room.html:100 project/templates/room.html:132
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: project/templates/room.html:127
 #, fuzzy
@@ -599,15 +606,15 @@ msgstr "Deve ser administrador."
 
 #: project/templates/signup.html:48
 msgid "language:"
-msgstr ""
+msgstr "Idioma"
 
 #: project/templates/signup.html:61
 msgid "Sign Up"
-msgstr ""
+msgstr "Registrar-se"
 
 #: project/templates/youtube.html:17
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #~ msgid "Room password:"
 #~ msgstr "Senha da sala:"
